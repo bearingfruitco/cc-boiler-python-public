@@ -1,0 +1,76 @@
+name: Cleanup Repository
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Delete internal documentation files
+        run: |
+          # Internal documentation
+          rm -f COMMIT_MESSAGE.md
+          rm -f DOCUMENTATION_UPDATE_COMPLETE.md
+          rm -f GIT_COMMIT_GUIDE.md
+          rm -f GO_PUBLIC_TODO.md
+          rm -f INITIAL.md
+          rm -f PYTHON_DEVELOPMENT_PLAN.md
+          rm -f SECURITY_SWEEP_RESULTS.md
+          rm -f SHARING_CHECKLIST.md
+          rm -f UPDATE_SUMMARY.md
+          
+      - name: Delete JavaScript/Next.js config files
+        run: |
+          # JavaScript/Next.js configs
+          rm -f biome.json
+          rm -f bunfig.toml
+          rm -f check-dependencies.sh
+          rm -f components.json
+          rm -f .npmrc
+          rm -f .coderabbit.yaml
+          
+      - name: Delete JavaScript directories
+        run: |
+          # Remove JavaScript-specific directories
+          rm -rf prisma/
+          rm -rf types/
+          
+          # Remove JavaScript tests
+          rm -f tests/*.ts
+          rm -f tests/*.tsx
+          
+      - name: Clean up templates directory
+        run: |
+          # Remove JavaScript template files
+          rm -f templates/form-api-route.ts
+          rm -f templates/vscode-snippets.json
+          
+      - name: Update README
+        run: |
+          # Update the clone URL in README
+          sed -i 's|https://github.com/shawnsninja/boilerplate-python.git|https://github.com/bearingfruitco/cc-boiler-python-public.git|g' README.md
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: clean up repository for Python-focused boilerplate
+
+          - Remove internal documentation files
+          - Remove JavaScript/Next.js configuration files  
+          - Remove JavaScript test and type files
+          - Remove prisma directory
+          - Update README with correct repository URL
+          
+          This creates a clean Python-focused boilerplate without internal docs or JS artifacts."
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
