@@ -45,7 +45,7 @@ A production-ready Python boilerplate for building AI-powered applications with 
 ### New Project
 ```bash
 # Clone the boilerplate
-git clone https://github.com/shawnsninja/boilerplate-python.git my-project
+git clone https://github.com/bearingfruitco/cc-boiler-python-public.git my-project
 cd my-project
 
 # Run setup
