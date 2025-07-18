@@ -1,0 +1,170 @@
+{
+  "permissions": {
+    "file_system": {
+      "read": true,
+      "write": true,
+      "create_directories": true
+    },
+    "shell": {
+      "execute": true
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": {},
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/00-auto-approve-safe-ops.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/00-dangerous-commands.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/01-collab-sync.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/02-design-check.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/03-conflict-check.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/04-actually-works.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/05-code-quality.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/06-biome-lint.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/07-pii-protection.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/08-async-patterns.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/09-evidence-language.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/10-auto-persona.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/11-hydration-guard.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/12-truth-enforcer.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/13-deletion-guard.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/14-import-validator.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/15-prd-clarity.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/16-implementation-guide.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/17-python-creation-guard.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/18-tcpa-compliance.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/pre-tool-use/19-python-dependency-tracker.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": {},
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/00-action-logger.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/01-state-save.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/02-metrics.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/03-auto-orchestrate.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/04-command-logger.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/05-pattern-learning.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/06-python-response-capture.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/07-research-capture.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/post-tool-use/08-python-import-updater.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": {},
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/stop/01-save-transcript.py"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": {},
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/sub-agent-stop/01-track-completion.py"
+          }
+        ]
+      }
+    ]
+  }
+}

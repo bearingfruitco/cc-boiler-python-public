@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Prisma v6.11+ configuration
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["queryCompiler", "driverAdapters"] // Rust-free version
+  output = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_DIRECT_URL") // For connection pooling
+}
+
+// User model with enhanced fields
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  formSubmissions FormSubmission[]
+  auditLogs       AuditLog[]
+  
+  @@index([email])
+  @@map("users")
+}
+
+// Form submissions with metadata
+model FormSubmission {
+  id        String   @id @default(cuid())
+  formName  String
+  data      Json
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Metadata
+  ip        String?
+  userAgent String?  @db.Text
+  source    String?  // utm_source, referrer, etc.
+  
+  createdAt DateTime @default(now())
+  
+  @@index([formName, createdAt])
+  @@index([userId])
+  @@map("form_submissions")
+}
+
+// Audit logs for compliance
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  action    String   // view_pii, update_user, delete_data, etc.
+  resource  String   // users, form_submissions, etc.
+  resourceId String?
+  metadata  Json?    // Additional context
+  
+  ip        String?
+  userAgent String?  @db.Text
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId, createdAt])
+  @@index([action, resource])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// Sessions for auth (if using Supabase Auth, this is handled automatically)
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  
+  @@index([userId])
+  @@map("sessions")
+}
+
+// Add more models as needed for your application

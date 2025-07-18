@@ -1,0 +1,153 @@
+{
+  "team": {
+    "members": ["shawn", "nikki"],
+    "sync_interval": 300,
+    "auto_pull": true,
+    "conflict_strategy": "prompt",
+    "notification_channel": "terminal",
+    "github_org": "your-org-here"
+  },
+  "hooks": {
+    "pre-tool-use": [
+      {
+        "script": "00-auto-approve-safe-ops.py",
+        "enabled": true,
+        "critical": false,
+        "description": "Auto-approve safe read operations and test file edits"
+      },
+      {
+        "script": "08-async-patterns.py",
+        "enabled": true,
+        "critical": false,
+        "description": "Detect and warn about async anti-patterns"
+      },
+      {
+        "script": "01-collab-sync.py",
+        "enabled": true,
+        "critical": true,
+        "description": "Sync with GitHub before file operations"
+      },
+      {
+        "script": "02-design-check.py",
+        "enabled": true,
+        "auto_fix": true,
+        "description": "Enforce design system rules"
+      },
+      {
+        "script": "03-conflict-check.py",
+        "enabled": true,
+        "description": "Check for potential conflicts"
+      },
+      {
+        "script": "06-biome-lint.py",
+        "enabled": true,
+        "description": "Run Biome linting and formatting checks"
+      },
+      {
+        "script": "07-pii-protection.py",
+        "enabled": true,
+        "critical": true,
+        "description": "Block PII in logs, URLs, and client storage"
+      },
+      {
+        "script": "10-hydration-guard.py",
+        "enabled": true,
+        "critical": true,
+        "description": "Prevent Next.js hydration errors"
+      },
+      {
+        "script": "11-truth-enforcer.py",
+        "enabled": true,
+        "critical": true,
+        "description": "Prevent changing established project facts"
+      },
+      {
+        "script": "12-deletion-guard.py",
+        "enabled": true,
+        "critical": false,
+        "description": "Warn before significant deletions"
+      },
+      {
+        "script": "13-import-validator.py",
+        "enabled": true,
+        "critical": false,
+        "description": "Validate and fix import paths"
+      },
+      {
+        "script": "16-tcpa-compliance.py",
+        "enabled": true,
+        "critical": false,
+        "description": "Ensure lead forms have TCPA compliance when enabled"
+      }
+    ],
+    "post-tool-use": [
+      {
+        "script": "01-state-save.py",
+        "throttle": 60,
+        "batch": true,
+        "description": "Save work state to GitHub"
+      },
+      {
+        "script": "02-metrics.py",
+        "enabled": true,
+        "description": "Track design compliance metrics"
+      },
+      {
+        "script": "03-team-notify.py",
+        "enabled": false,
+        "description": "Notify team of changes (optional)"
+      }
+    ],
+    "notification": [
+      {
+        "script": "team-aware.py",
+        "enabled": true,
+        "description": "Show team activity and suggestions"
+      },
+      {
+        "script": "smart-suggest.py",
+        "enabled": true,
+        "description": "Context-aware command suggestions"
+      }
+    ],
+    "stop": [
+      {
+        "script": "save-state.py",
+        "enabled": true,
+        "description": "Final state save and metrics"
+      },
+      {
+        "script": "knowledge-share.py",
+        "enabled": true,
+        "description": "Extract and share learnings"
+      },
+      {
+        "script": "handoff-prep.py",
+        "enabled": true,
+        "description": "Prepare handoff if needed"
+      }
+    ],
+    "sub-agent-stop": [
+      {
+        "script": "coordinate.py",
+        "enabled": true,
+        "description": "Coordinate multi-agent tasks"
+      }
+    ]
+  },
+  "github": {
+    "auto_commit": false,
+    "commit_threshold": 5,
+    "pr_update_frequency": "on_stop",
+    "gist_visibility": "secret",
+    "use_worktrees": true
+  },
+  "design_system": {
+    "enforce": true,
+    "auto_fix": true,
+    "allowed_font_sizes": ["text-size-1", "text-size-2", "text-size-3", "text-size-4"],
+    "allowed_font_weights": ["font-regular", "font-semibold"],
+    "spacing_grid": 4,
+    "min_touch_target": 44
+  }
+}

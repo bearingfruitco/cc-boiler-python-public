@@ -1,0 +1,143 @@
+{
+  "chains": {
+    "morning-setup": {
+      "description": "Complete morning setup routine",
+      "commands": [
+        "smart-resume",
+        "security-check deps",
+        "test-runner changed"
+      ]
+    },
+    "pre-pr": {
+      "description": "Pre-PR validation suite",
+      "commands": [
+        "validate-design",
+        "test-runner changed",
+        "performance-monitor check",
+        "security-check all"
+      ],
+      "stopOnError": true
+    },
+    "feature-complete": {
+      "description": "Complete feature workflow",
+      "commands": [
+        "checkpoint create pre-complete",
+        "validate-design",
+        "test-runner all",
+        "performance-monitor compare",
+        "security-check all",
+        "feature-workflow complete"
+      ],
+      "stopOnError": true
+    },
+    "quick-check": {
+      "description": "Quick validation check",
+      "commands": [
+        "validate-design current",
+        "test-runner current"
+      ]
+    },
+    "daily-report": {
+      "description": "Generate daily reports",
+      "commands": [
+        "work-status list",
+        "todo report",
+        "analytics report",
+        "performance-monitor report"
+      ]
+    },
+    "error-fix": {
+      "description": "Common error recovery",
+      "commands": [
+        "error-recovery deps",
+        "error-recovery build",
+        "validate-design"
+      ]
+    },
+    "feature-planning": {
+      "description": "Plan new feature with PRD and tasks",
+      "commands": [
+        "create-prd",
+        "generate-tasks",
+        "task-status"
+      ]
+    },
+    "task-sprint": {
+      "description": "Work through tasks systematically",
+      "commands": [
+        "task-status",
+        "process-tasks",
+        "verify-task",
+        "task-checkpoint"
+      ]
+    },
+    "task-review": {
+      "description": "Review task implementation",
+      "commands": [
+        "verify-task",
+        "validate-design",
+        "test-runner current",
+        "browser-test-flow"
+      ]
+    },
+    "context-maintenance": {
+      "description": "Maintain project context",
+      "commands": [
+        "auto-update-context",
+        "analyze-project",
+        "generate-docs"
+      ]
+    },
+    "daily-startup": {
+      "description": "Enhanced daily startup",
+      "commands": [
+        "smart-resume",
+        "task-status",
+        "work-status",
+        "todo list"
+      ]
+    },
+    "safe-commit": {
+      "description": "Safe commit with validation checks",
+      "commands": [
+        "facts all",
+        "validate-design",
+        "lint:fix",
+        "test-runner changed"
+      ],
+      "stopOnError": true
+    },
+    "field-sync": {
+      "description": "Sync all field registry generated code",
+      "commands": [
+        "field-generate types",
+        "field-generate schemas",
+        "field-generate factories",
+        "field-generate masking"
+      ]
+    },
+    "pre-component": {
+      "description": "Check before creating new component",
+      "commands": [
+        "exists",
+        "facts components"
+      ]
+    }
+  },
+  "shortcuts": {
+    "ms": "morning-setup",
+    "pp": "pre-pr",
+    "fc": "feature-complete",
+    "qc": "quick-check",
+    "dr": "daily-report",
+    "ef": "error-fix",
+    "fp": "feature-planning",
+    "ts": "task-sprint",
+    "tr": "task-review",
+    "cm": "context-maintenance",
+    "ds": "daily-startup",
+    "sc": "safe-commit",
+    "fs": "field-sync",
+    "pc": "pre-component"
+  }
+}

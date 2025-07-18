@@ -1,0 +1,109 @@
+{
+  "name": "Marketing Landing Page",
+  "description": "High-converting marketing site with CMS",
+  "features": [
+    "hero-section",
+    "features-grid",
+    "testimonials",
+    "pricing",
+    "blog",
+    "contact-form"
+  ],
+  "structure": {
+    "directories": [
+      "app/(marketing)/page",
+      "app/(marketing)/features",
+      "app/(marketing)/pricing",
+      "app/(marketing)/about",
+      "app/(marketing)/contact",
+      "app/blog",
+      "app/blog/[slug]",
+      "components/marketing",
+      "components/blog",
+      "content/blog"
+    ],
+    "components": [
+      {
+        "type": "feature",
+        "name": "HeroSection",
+        "features": ["animated", "cta", "video-background"]
+      },
+      {
+        "type": "feature",
+        "name": "FeatureGrid",
+        "features": ["icons", "animations"]
+      },
+      {
+        "type": "feature",
+        "name": "TestimonialCarousel",
+        "features": ["auto-play", "indicators"]
+      },
+      {
+        "type": "feature",
+        "name": "PricingTable",
+        "features": ["toggle", "popular-badge"]
+      },
+      {
+        "type": "ui",
+        "name": "BlogCard",
+        "features": ["image", "author", "date"]
+      },
+      {
+        "type": "form",
+        "name": "ContactForm",
+        "features": ["validation", "email-integration"]
+      }
+    ],
+    "dependencies": {
+      "required": [
+        "framer-motion",
+        "contentlayer",
+        "@radix-ui/react-icons"
+      ],
+      "optional": [
+        "resend",
+        "@vercel/analytics",
+        "next-sitemap"
+      ]
+    }
+  },
+  "setup": [
+    {
+      "step": "Create landing sections",
+      "commands": [
+        "create-component feature HeroSection",
+        "create-component feature FeatureGrid",
+        "create-component feature TestimonialCarousel",
+        "create-component feature PricingTable"
+      ]
+    },
+    {
+      "step": "Setup blog",
+      "commands": [
+        "create-component ui BlogCard",
+        "create-component layout BlogLayout"
+      ]
+    },
+    {
+      "step": "Create forms",
+      "commands": [
+        "create-component form ContactForm --with-tests",
+        "create-component form NewsletterForm"
+      ]
+    }
+  ],
+  "environment": {
+    "required": [
+      "NEXT_PUBLIC_SITE_URL"
+    ],
+    "optional": [
+      "RESEND_API_KEY",
+      "VERCEL_ANALYTICS_ID"
+    ]
+  },
+  "designSystem": {
+    "primaryColor": "indigo",
+    "style": "modern",
+    "animations": "high"
+  }
+}

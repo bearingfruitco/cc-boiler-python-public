@@ -1,0 +1,32 @@
+# Bun configuration file
+
+[install]
+# Use pnpm-style hoisting
+auto = "auto"
+
+[install.lockfile]
+# Save exact versions
+save = true
+
+[test]
+# Test configuration
+root = "./__tests__"
+preload = ["./test-setup.ts"]
+coverage = true
+coverageReporter = ["text", "lcov"]
+
+[run]
+# Auto-install missing packages
+autoInstall = true
+
+# Bun-specific environment variables
+[env]
+NODE_ENV = "development"
+
+[debug]
+# Improved error messages
+htmx = true
+
+[telemetry]
+# Disable telemetry
+enabled = false

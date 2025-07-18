@@ -1,0 +1,334 @@
+#!/usr/bin/env python3
+"""
+Query Logs - Analyze Claude command history and patterns
+Provides insights into command usage, performance, and errors
+"""
+
+import json
+import sys
+from pathlib import Path
+from datetime import datetime, timedelta
+import argparse
+from collections import defaultdict
+
+def load_logs(days=None, log_dir=None):
+    """Load command logs from specified time period"""
+    if not log_dir:
+        log_dir = Path(".claude/logs/commands")
+    
+    if not log_dir.exists():
+        return []
+    
+    # Determine which log files to read
+    if days:
+        start_date = datetime.now() - timedelta(days=days)
+        log_files = [
+            f for f in log_dir.glob("*.jsonl")
+            if datetime.strptime(f.stem, "%Y-%m-%d") >= start_date
+        ]
+    else:
+        log_files = list(log_dir.glob("*.jsonl"))
+    
+    # Read all log entries
+    entries = []
+    for log_file in sorted(log_files):
+        try:
+            with open(log_file) as f:
+                for line in f:
+                    if line.strip():
+                        entries.append(json.loads(line))
+        except Exception as e:
+            print(f"Error reading {log_file}: {e}", file=sys.stderr)
+    
+    return entries
+
+def filter_logs(entries, filters):
+    """Apply filters to log entries"""
+    filtered = entries
+    
+    if filters.get('command'):
+        command_prefix = filters['command']
+        filtered = [e for e in filtered if e['command'].startswith(command_prefix)]
+    
+    if filters.get('min_duration'):
+        min_dur = filters['min_duration']
+        filtered = [e for e in filtered if e['duration'] >= min_dur]
+    
+    if filters.get('errors_only'):
+        filtered = [e for e in filtered if e['status'] == 'error']
+    
+    if filters.get('success_only'):
+        filtered = [e for e in filtered if e['status'] == 'success']
+    
+    if filters.get('user'):
+        user = filters['user']
+        filtered = [e for e in filtered if e.get('user') == user]
+    
+    if filters.get('session'):
+        session = filters['session']
+        filtered = [e for e in filtered if e['session_id'] == session]
+    
+    return filtered
+
+def sort_logs(entries, sort_by='time', reverse=False):
+    """Sort log entries by specified field"""
+    if sort_by == 'time':
+        key_func = lambda x: x['timestamp']
+    elif sort_by == 'duration':
+        key_func = lambda x: x['duration']
+        reverse = True  # Longest first by default
+    elif sort_by == 'command':
+        key_func = lambda x: x['command']
+    else:
+        key_func = lambda x: x['timestamp']
+    
+    return sorted(entries, key=key_func, reverse=reverse)
+
+def format_duration(ms):
+    """Format duration in human-readable format"""
+    if ms < 1000:
+        return f"{ms}ms"
+    elif ms < 60000:
+        return f"{ms/1000:.1f}s"
+    else:
+        return f"{ms/60000:.1f}m"
+
+def format_entry(entry, format_type='text'):
+    """Format a log entry for display"""
+    if format_type == 'json':
+        return json.dumps(entry, indent=2)
+    
+    # Text format
+    timestamp = entry['timestamp'].split('T')[1].split('.')[0]  # Just time
+    command = entry['command']
+    args = ' '.join(entry['args']) if entry['args'] else ''
+    duration = format_duration(entry['duration'])
+    status = entry['status']
+    
+    line = f"{timestamp} | {command:15} | {duration:>8} | {status:>7}"
+    
+    if args:
+        line += f" | {args[:40]}"
+    
+    if entry.get('error'):
+        line += f"\n  ❌ Error: {entry['error']}"
+    
+    if entry.get('files_changed'):
+        line += f"\n  📝 Files: {', '.join(entry['files_changed'][:3])}"
+        if len(entry['files_changed']) > 3:
+            line += f" (+{len(entry['files_changed']) - 3} more)"
+    
+    return line
+
+def show_stats(entries):
+    """Show command usage statistics"""
+    if not entries:
+        print("No log entries found")
+        return
+    
+    # Load pre-computed stats if available
+    stats_file = Path(".claude/logs/commands/stats.json")
+    if stats_file.exists():
+        with open(stats_file) as f:
+            stats = json.load(f)
+    else:
+        # Compute stats from entries
+        stats = compute_stats(entries)
+    
+    print("📊 Command Usage Statistics")
+    print("=" * 70)
+    
+    # Overall stats
+    total_commands = sum(s['count'] for s in stats.values())
+    total_duration = sum(s['total_duration'] for s in stats.values())
+    total_success = sum(s['success_count'] for s in stats.values())
+    
+    print(f"\n📈 Overall:")
+    print(f"  Total Commands: {total_commands}")
+    print(f"  Total Time: {format_duration(total_duration)}")
+    print(f"  Success Rate: {(total_success/total_commands)*100:.1f}%")
+    
+    # Most used commands
+    print(f"\n🔥 Most Used Commands:")
+    sorted_cmds = sorted(stats.items(), key=lambda x: x[1]['count'], reverse=True)
+    for cmd, cmd_stats in sorted_cmds[:10]:
+        success_rate = (cmd_stats['success_count'] / cmd_stats['count']) * 100
+        avg_duration = format_duration(cmd_stats.get('avg_duration', 0))
+        print(f"  {cmd:15} - {cmd_stats['count']:4} uses, {success_rate:5.1f}% success, {avg_duration:>8} avg")
+    
+    # Slowest commands
+    print(f"\n🐌 Slowest Commands (avg):")
+    sorted_by_duration = sorted(
+        [(cmd, s) for cmd, s in stats.items() if s['count'] > 2],
+        key=lambda x: x[1].get('avg_duration', 0),
+        reverse=True
+    )
+    for cmd, cmd_stats in sorted_by_duration[:5]:
+        avg_duration = format_duration(cmd_stats.get('avg_duration', 0))
+        print(f"  {cmd:15} - {avg_duration:>8} avg ({cmd_stats['count']} uses)")
+    
+    # Error-prone commands
+    error_commands = [(cmd, s) for cmd, s in stats.items() if s.get('error_count', 0) > 0]
+    if error_commands:
+        print(f"\n⚠️  Error-Prone Commands:")
+        sorted_by_errors = sorted(error_commands, key=lambda x: x[1]['error_count'], reverse=True)
+        for cmd, cmd_stats in sorted_by_errors[:5]:
+            error_rate = (cmd_stats['error_count'] / cmd_stats['count']) * 100
+            print(f"  {cmd:15} - {cmd_stats['error_count']} errors ({error_rate:.1f}% error rate)")
+
+def compute_stats(entries):
+    """Compute statistics from log entries"""
+    stats = defaultdict(lambda: {
+        'count': 0,
+        'total_duration': 0,
+        'success_count': 0,
+        'error_count': 0,
+        'files_changed_count': 0
+    })
+    
+    for entry in entries:
+        cmd = entry['command']
+        stats[cmd]['count'] += 1
+        stats[cmd]['total_duration'] += entry['duration']
+        
+        if entry['status'] == 'success':
+            stats[cmd]['success_count'] += 1
+        elif entry['status'] == 'error':
+            stats[cmd]['error_count'] += 1
+        
+        if entry.get('files_changed'):
+            stats[cmd]['files_changed_count'] += len(entry['files_changed'])
+    
+    # Calculate averages
+    for cmd, cmd_stats in stats.items():
+        if cmd_stats['count'] > 0:
+            cmd_stats['avg_duration'] = cmd_stats['total_duration'] / cmd_stats['count']
+    
+    return dict(stats)
+
+def show_sessions(entries):
+    """Show session information"""
+    sessions = defaultdict(lambda: {
+        'commands': [],
+        'start_time': None,
+        'end_time': None,
+        'total_duration': 0,
+        'error_count': 0
+    })
+    
+    for entry in entries:
+        session_id = entry['session_id']
+        session = sessions[session_id]
+        
+        session['commands'].append(entry['command'])
+        session['total_duration'] += entry['duration']
+        
+        if entry['status'] == 'error':
+            session['error_count'] += 1
+        
+        timestamp = datetime.fromisoformat(entry['timestamp'].replace('Z', '+00:00'))
+        
+        if not session['start_time'] or timestamp < session['start_time']:
+            session['start_time'] = timestamp
+        
+        if not session['end_time'] or timestamp > session['end_time']:
+            session['end_time'] = timestamp
+    
+    print("📋 Recent Sessions")
+    print("=" * 70)
+    
+    # Sort by most recent
+    sorted_sessions = sorted(
+        sessions.items(),
+        key=lambda x: x[1]['end_time'] or datetime.min,
+        reverse=True
+    )
+    
+    for session_id, session in sorted_sessions[:10]:
+        duration = (session['end_time'] - session['start_time']).total_seconds() / 60
+        print(f"\n🔹 Session: {session_id[:8]}...")
+        print(f"   Duration: {duration:.1f} minutes")
+        print(f"   Commands: {len(session['commands'])} ({session['error_count']} errors)")
+        print(f"   Total Processing: {format_duration(session['total_duration'])}")
+        
+        # Show command summary
+        cmd_counts = defaultdict(int)
+        for cmd in session['commands']:
+            cmd_counts[cmd] += 1
+        
+        top_cmds = sorted(cmd_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+        print(f"   Top Commands: {', '.join(f'{cmd} ({count})' for cmd, count in top_cmds)}")
+
+def main():
+    """Main entry point"""
+    parser = argparse.ArgumentParser(description='Query Claude command logs')
+    
+    # Filter options
+    parser.add_argument('--command', '-c', help='Filter by command prefix')
+    parser.add_argument('--days', '-d', type=int, help='Last N days of logs')
+    parser.add_argument('--min-duration', '-m', type=int, help='Minimum duration in ms')
+    parser.add_argument('--errors-only', '-e', action='store_true', help='Only show errors')
+    parser.add_argument('--success-only', action='store_true', help='Only show successes')
+    parser.add_argument('--user', '-u', help='Filter by user')
+    parser.add_argument('--session', '-s', help='Filter by session ID')
+    
+    # Display options
+    parser.add_argument('--sort', choices=['time', 'duration', 'command'], default='time')
+    parser.add_argument('--limit', '-l', type=int, help='Limit number of results')
+    parser.add_argument('--format', '-f', choices=['text', 'json'], default='text')
+    
+    # Analysis options
+    parser.add_argument('--stats', action='store_true', help='Show statistics')
+    parser.add_argument('--sessions', action='store_true', help='Show session analysis')
+    
+    args = parser.parse_args()
+    
+    # Load logs
+    entries = load_logs(days=args.days)
+    
+    if not entries:
+        print("No log entries found")
+        return
+    
+    # Show stats or sessions if requested
+    if args.stats:
+        show_stats(entries)
+        return
+    
+    if args.sessions:
+        show_sessions(entries)
+        return
+    
+    # Apply filters
+    filters = {
+        'command': args.command,
+        'min_duration': args.min_duration,
+        'errors_only': args.errors_only,
+        'success_only': args.success_only,
+        'user': args.user,
+        'session': args.session
+    }
+    
+    filtered = filter_logs(entries, {k: v for k, v in filters.items() if v is not None})
+    
+    # Sort results
+    sorted_entries = sort_logs(filtered, args.sort)
+    
+    # Apply limit
+    if args.limit:
+        sorted_entries = sorted_entries[:args.limit]
+    
+    # Display results
+    if args.format == 'json':
+        print(json.dumps(sorted_entries, indent=2))
+    else:
+        print(f"📝 Command Log ({len(sorted_entries)} entries)")
+        print("=" * 70)
+        print("Time     | Command         | Duration | Status  | Details")
+        print("-" * 70)
+        
+        for entry in sorted_entries:
+            print(format_entry(entry, args.format))
+
+if __name__ == "__main__":
+    main()
