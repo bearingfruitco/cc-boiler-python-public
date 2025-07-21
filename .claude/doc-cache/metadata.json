@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "created": "2024-01-15T10:00:00Z",
+    "version": "1.0.0",
+    "totalSize": 0,
+    "sourceCount": 0,
+    "lastCleanup": "2024-01-15T10:00:00Z"
+  },
+  "settings": {
+    "maxCacheSize": 52428800,
+    "maxAge": 2592000,
+    "cleanupThreshold": 0.8
+  }
+}

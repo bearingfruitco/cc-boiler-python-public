@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "suggestion_limit": 3,
+  "show_help_section": true,
+  "time_based_suggestions": true,
+  "learning_enabled": true,
+  "display_mode": "compact",
+  "skip_commands": [
+    "help",
+    "work-status",
+    "task-status",
+    "branch-status",
+    "git-status",
+    "analytics",
+    "performance-monitor",
+    "checkpoint",
+    "todo"
+  ],
+  "custom_flows": {},
+  "user_preferences": {
+    "prefer_orchestration": true,
+    "prefer_tests_first": true,
+    "prefer_checkpoints": true
+  }
+}

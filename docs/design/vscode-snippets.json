@@ -1,0 +1,291 @@
+{
+  "Standard Button": {
+    "prefix": "btn",
+    "body": [
+      "<button",
+      "  className=\"w-full h-12 px-4 rounded-xl font-semibold text-size-3 flex items-center justify-center gap-2 transition-all bg-primary-600 text-white hover:bg-primary-700 disabled:bg-gray-200 disabled:text-gray-400\"",
+      "  onClick={$1}",
+      "  disabled={$2}",
+      ">",
+      "  ${3:Label}",
+      "</button>"
+    ],
+    "description": "Standard button with 48px height"
+  },
+  
+  "Secondary Button": {
+    "prefix": "btnsec",
+    "body": [
+      "<button",
+      "  className=\"w-full h-12 px-4 rounded-xl font-semibold text-size-3 flex items-center justify-center gap-2 transition-all bg-gray-800 text-white hover:bg-gray-900\"",
+      "  onClick={$1}",
+      ">",
+      "  ${2:Label}",
+      "</button>"
+    ],
+    "description": "Secondary action button"
+  },
+
+  "Card Component": {
+    "prefix": "card",
+    "body": [
+      "<div className=\"bg-white border border-gray-200 rounded-xl p-4 space-y-3\">",
+      "  <h3 className=\"text-size-2 font-semibold text-gray-900\">",
+      "    ${1:Title}",
+      "  </h3>",
+      "  <p className=\"text-size-3 font-regular text-gray-600\">",
+      "    ${2:Content}",
+      "  </p>",
+      "</div>"
+    ],
+    "description": "Standard card component"
+  },
+
+  "Alert Card": {
+    "prefix": "alert",
+    "body": [
+      "<div className=\"bg-${1|red,yellow,green,blue|}-50 border border-${1}-200 rounded-xl p-4 space-y-3\">",
+      "  <h4 className=\"font-semibold text-${1}-900 flex items-center gap-2\">",
+      "    <${2:AlertCircle} className=\"w-5 h-5\" />",
+      "    ${3:Alert Title}",
+      "  </h4>",
+      "  <div className=\"text-size-3 text-gray-700\">",
+      "    ${4:Alert content}",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "Alert/notification card"
+  },
+
+  "Input Field": {
+    "prefix": "input",
+    "body": [
+      "<input",
+      "  type=\"${1|text,email,password,number,tel|}\"",
+      "  name=\"${2:fieldName}\"",
+      "  value={${3:value}}",
+      "  onChange={(e) => ${4:setValue}(e.target.value)}",
+      "  placeholder=\"${5:placeholder}\"",
+      "  className=\"w-full h-12 px-4 border-2 border-gray-200 rounded-xl focus:border-primary-500 focus:outline-none transition-colors\"",
+      "/>"
+    ],
+    "description": "Standard input field"
+  },
+
+  "Form Group": {
+    "prefix": "formgroup",
+    "body": [
+      "<div className=\"space-y-2\">",
+      "  <label htmlFor=\"${1:fieldId}\" className=\"text-size-3 font-semibold text-gray-700\">",
+      "    ${2:Label}",
+      "  </label>",
+      "  <input",
+      "    id=\"${1:fieldId}\"",
+      "    type=\"${3:text}\"",
+      "    className=\"w-full h-12 px-4 border-2 border-gray-200 rounded-xl focus:border-primary-500 focus:outline-none transition-colors\"",
+      "  />",
+      "  {${4:error} && (",
+      "    <p className=\"text-size-4 text-red-600\">{${4:error}}</p>",
+      "  )}",
+      "</div>"
+    ],
+    "description": "Form field with label and error"
+  },
+
+  "Container Layout": {
+    "prefix": "container",
+    "body": [
+      "<div className=\"min-h-screen bg-gray-50 flex items-center justify-center p-4\">",
+      "  <div className=\"w-full max-w-md bg-white rounded-2xl shadow-lg p-6\">",
+      "    <div className=\"space-y-6\">",
+      "      ${1:<!-- Content -->}",
+      "    </div>",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "Centered container layout"
+  },
+
+  "Page Section": {
+    "prefix": "section",
+    "body": [
+      "<section className=\"py-${1|8,12,16|} px-4\">",
+      "  <div className=\"max-w-${2|md,lg,xl,2xl,4xl|} mx-auto\">",
+      "    <h2 className=\"text-size-1 font-semibold text-gray-900 mb-${3|4,6,8|}\">",
+      "      ${4:Section Title}",
+      "    </h2>",
+      "    <div className=\"space-y-${5|4,6,8|}\">",
+      "      ${6:<!-- Content -->}",
+      "    </div>",
+      "  </div>",
+      "</section>"
+    ],
+    "description": "Page section with container"
+  },
+
+  "Grid Layout": {
+    "prefix": "grid",
+    "body": [
+      "<div className=\"grid grid-cols-${1|1,2,3,4|} md:grid-cols-${2|2,3,4,6|} gap-${3|2,3,4,6|}\">",
+      "  {${4:items}.map((item) => (",
+      "    <div key={item.${5:id}} className=\"${6:<!-- Item classes -->}\">",
+      "      {item.${7:name}}",
+      "    </div>",
+      "  ))}",
+      "</div>"
+    ],
+    "description": "Responsive grid layout"
+  },
+
+  "Loading Skeleton": {
+    "prefix": "skeleton",
+    "body": [
+      "<div className=\"animate-pulse\">",
+      "  <div className=\"h-${1|4,6,8,10,12|} bg-gray-200 rounded-${2|md,lg,xl|} mb-${3|2,3,4|}\"></div>",
+      "  <div className=\"space-y-${4|2,3|}\">",
+      "    <div className=\"h-4 bg-gray-200 rounded\"></div>",
+      "    <div className=\"h-4 bg-gray-200 rounded w-5/6\"></div>",
+      "  </div>",
+      "</div>"
+    ],
+    "description": "Loading skeleton placeholder"
+  },
+
+  "React Component": {
+    "prefix": "comp",
+    "body": [
+      "interface ${1:ComponentName}Props {",
+      "  ${2:prop}: ${3:type};",
+      "}",
+      "",
+      "export function ${1:ComponentName}({ ${2:prop} }: ${1:ComponentName}Props) {",
+      "  return (",
+      "    <div className=\"${4:classes}\">",
+      "      ${5:<!-- Content -->}",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "React component with TypeScript"
+  },
+
+  "React Hook": {
+    "prefix": "hook",
+    "body": [
+      "import { useState, useEffect } from 'react';",
+      "",
+      "export function use${1:HookName}(${2:params}) {",
+      "  const [${3:state}, set${3/(.*)/${1:/capitalize}/}] = useState(${4:initialValue});",
+      "  ",
+      "  useEffect(() => {",
+      "    ${5:// Effect logic}",
+      "  }, [${6:dependencies}]);",
+      "  ",
+      "  return { ${3:state} };",
+      "}"
+    ],
+    "description": "Custom React hook"
+  },
+
+  "API Route": {
+    "prefix": "api",
+    "body": [
+      "import { NextRequest } from 'next/server';",
+      "",
+      "export async function ${1|GET,POST,PUT,DELETE|}(request: NextRequest) {",
+      "  try {",
+      "    ${2:// Handler logic}",
+      "    ",
+      "    return Response.json(",
+      "      { success: true, data: ${3:result} },",
+      "      { status: ${4:200} }",
+      "    );",
+      "  } catch (error) {",
+      "    return Response.json(",
+      "      { success: false, error: error.message },",
+      "      { status: 500 }",
+      "    );",
+      "  }",
+      "}"
+    ],
+    "description": "Next.js API route handler"
+  },
+
+  "Server Action": {
+    "prefix": "action",
+    "body": [
+      "'use server';",
+      "",
+      "import { z } from 'zod';",
+      "",
+      "const schema = z.object({",
+      "  ${1:field}: z.${2:string}(),",
+      "});",
+      "",
+      "export async function ${3:actionName}(formData: FormData) {",
+      "  const data = Object.fromEntries(formData);",
+      "  const validated = schema.parse(data);",
+      "  ",
+      "  ${4:// Action logic}",
+      "  ",
+      "  return { success: true };",
+      "}"
+    ],
+    "description": "Next.js server action"
+  },
+
+  "Zod Schema": {
+    "prefix": "schema",
+    "body": [
+      "import { z } from 'zod';",
+      "",
+      "export const ${1:schemaName} = z.object({",
+      "  ${2:field}: z.${3:string}()${4:.min(1, 'Required')},",
+      "  ${5:field2}: z.${6:number}()${7:.positive()},",
+      "});",
+      "",
+      "export type ${1/(.*)/${1:/capitalize}/} = z.infer<typeof ${1:schemaName}>;"
+    ],
+    "description": "Zod validation schema"
+  },
+
+  "Suspense Boundary": {
+    "prefix": "suspense",
+    "body": [
+      "<Suspense fallback={<${1:LoadingSkeleton} />}>",
+      "  <${2:AsyncComponent} ${3:props} />",
+      "</Suspense>"
+    ],
+    "description": "React Suspense boundary"
+  },
+
+  "Error Boundary": {
+    "prefix": "error",
+    "body": [
+      "'use client';",
+      "",
+      "export default function Error({",
+      "  error,",
+      "  reset,",
+      "}: {",
+      "  error: Error & { digest?: string };",
+      "  reset: () => void;",
+      "}) {",
+      "  return (",
+      "    <div className=\"flex flex-col items-center justify-center min-h-screen p-4\">",
+      "      <h2 className=\"text-size-2 font-semibold mb-4\">",
+      "        ${1:Something went wrong!}",
+      "      </h2>",
+      "      <button",
+      "        onClick={reset}",
+      "        className=\"px-4 py-2 bg-primary-600 text-white rounded-lg\"",
+      "      >",
+      "        Try again",
+      "      </button>",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "Error boundary component"
+  }
+}

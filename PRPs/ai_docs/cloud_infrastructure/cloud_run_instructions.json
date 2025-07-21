@@ -1,0 +1,122 @@
+{
+  "description": "High‑level instructions for an agent to build, deploy and manage Google Cloud Run services. The agent should substitute placeholders (e.g. PROJECT_ID) with real values.",
+  "defaults": {
+    "project_id": "your‑gcp‑project",
+    "region": "us‑central1",
+    "service_name": "example‑service",
+    "image_tag": "v1",
+    "max_instances": 10,
+    "min_instances": 0,
+    "concurrency": 80,
+    "cpu": 1,
+    "memory": "512Mi",
+    "cpu_always_on": false
+  },
+  "tasks": [
+    {
+      "name": "build_container",
+      "description": "Build and push the container image for Cloud Run. Use a Dockerfile in the repository. Replace PROJECT_ID, SERVICE_NAME and TAG with real values.",
+      "commands": [
+        "docker build -t gcr.io/${project_id}/${service_name}:${image_tag} .",
+        "docker push gcr.io/${project_id}/${service_name}:${image_tag}"
+      ],
+      "notes": "If Artifact Registry is used, use the region‑specific repository path like \"REGION‑docker.pkg.dev/${project_id}/REPOSITORY/${service_name}:${image_tag}\"."
+    },
+    {
+      "name": "deploy_service",
+      "description": "Deploy or update a Cloud Run service using gcloud CLI. The service will be deployed from a container image. Adjust flags to set concurrency, CPU, memory, min/max instances, and CPU allocation mode.",
+      "commands": [
+        "gcloud run deploy ${service_name} \\",
+        "  --image=gcr.io/${project_id}/${service_name}:${image_tag} \\",
+        "  --region=${region} \\",
+        "  --platform=managed \\",
+        "  --allow‑unauthenticated \\",
+        "  --concurrency=${concurrency} \\",
+        "  --cpu=${cpu} \\",
+        "  --memory=${memory} \\",
+        "  --min-instances=${min_instances} \\",
+        "  --max-instances=${max_instances} \\",
+        "  --set‑env‑vars=ENV1=value1,ENV2=value2 \\",
+        "  ${cpu_always_on? '--cpu-throttling=false' : '--cpu-throttling=true'}"
+      ],
+      "notes": "The --allow‑unauthenticated flag exposes the service publicly. Remove it for private services. Use --cpu-throttling=false to allocate CPU always (always‑on mode) or omit for default on‑demand mode."
+    },
+    {
+      "name": "deploy_from_source",
+      "description": "Deploy a Cloud Run service directly from source code using gcloud. This builds the container with Cloud Build. Useful for simple deployments without manual Docker builds.",
+      "commands": [
+        "gcloud run deploy ${service_name} \\",
+        "  --source=. \\",
+        "  --region=${region} \\",
+        "  --platform=managed \\",
+        "  --allow‑unauthenticated \\",
+        "  --concurrency=${concurrency} \\",
+        "  --cpu=${cpu} \\",
+        "  --memory=${memory}"
+      ],
+      "notes": "A gcloud‑provided builder will create the container. Use for quick prototyping."
+    },
+    {
+      "name": "github_actions_deploy",
+      "description": "Define a GitHub Actions workflow to automatically build and deploy to Cloud Run when code changes. Use google‑github‑actions/deploy-cloudrun@v2.",
+      "snippet_yaml": "jobs:\n  deploy:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: 'read'\n      id-token: 'write'\n    steps:\n      - uses: actions/checkout@v4\n      - uses: google-github-actions/auth@v2\n        with:\n          workload_identity_provider: '${{ inputs.workload_identity_provider }}'\n          service_account: '${{ inputs.service_account }}'\n      - id: deploy\n        uses: google-github-actions/deploy-cloudrun@v2\n        with:\n          service: '${{ env.service_name }}'\n          image: 'gcr.io/${{ env.project_id }}/${{ env.service_name }}:${{ env.image_tag }}'\n          concurrency: '${{ env.concurrency }}'\n          memory: '${{ env.memory }}'\n          cpu: '${{ env.cpu }}'\n          region: '${{ env.region }}'\n          env_vars: |\n            ENV1=value1\n            ENV2=value2\n      - name: Use output URL\n        run: echo \"Deployed at ${{ steps.deploy.outputs.url }}\"",
+      "notes": "Store service account credentials in GitHub secrets or use workload identity federation."
+    },
+    {
+      "name": "configure_logging",
+      "description": "Ensure that application logs are written as structured JSON to stdout/stderr. Use Cloud Logging metadata keys like 'severity', 'message', 'logging.googleapis.com/sourceLocation', and 'logging.googleapis.com/trace'.",
+      "sample_code": "import json\nimport logging\n\nentry = {\n    \"severity\": \"INFO\",\n    \"message\": \"Request processed\",\n    \"requestId\": \"1234\",\n    \"user\": \"alice\"\n}\nprint(json.dumps(entry))",
+      "notes": "Structured logs printed as JSON to stderr are automatically ingested by Cloud Logging. Include trace IDs from the X-Cloud-Trace-Context header in logs to correlate them with request logs."
+    },
+    {
+      "name": "check_logs",
+      "description": "Use gcloud or Console to view logs for a Cloud Run service. Filter by service name and severity.",
+      "commands": [
+        "gcloud beta logging read 'resource.type=cloud_run_revision AND resource.labels.service_name=${service_name}' --limit=50 --project=${project_id} --format=json"
+      ],
+      "notes": "Logs can also be viewed in the Cloud Logging Logs Explorer by selecting the Cloud Run service. Use filters to search for severity=ERROR or trace IDs."
+    },
+    {
+      "name": "create_eventarc_trigger_pubsub",
+      "description": "Create an Eventarc trigger so that Pub/Sub messages are delivered to your Cloud Run service.",
+      "commands": [
+        "gcloud services enable eventarc.googleapis.com",
+        "gcloud iam service-accounts create eventarc-trigger-sa",
+        "gcloud eventarc triggers create trigger-pubsub \\",
+        "  --destination-run-service=${service_name} \\",
+        "  --destination-run-region=${region} \\",
+        "  --event-filters=type=google.cloud.pubsub.topic.v1.messagePublished \\",
+        "  --location=${region} \\",
+        "  --service-account=eventarc-trigger-sa@${project_id}.iam.gserviceaccount.com"
+      ],
+      "notes": "The trigger automatically creates a Pub/Sub topic; publishing messages to that topic will invoke the service. To use an existing topic, specify --transport-topic."
+    },
+    {
+      "name": "eventarc_trigger_storage",
+      "description": "Create an Eventarc trigger that sends Cloud Storage object creation events to the service.",
+      "commands": [
+        "gsutil mb -l ${region} gs://YOUR_BUCKET",
+        "gcloud projects add-iam-policy-binding ${project_id} --role roles/eventarc.eventReceiver --member serviceAccount:eventarc-trigger-sa@${project_id}.iam.gserviceaccount.com",
+        "SERVICE_ACCOUNT_STORAGE=$(gsutil kms serviceaccount -p ${project_id})",
+        "gcloud projects add-iam-policy-binding ${project_id} --member serviceAccount:${SERVICE_ACCOUNT_STORAGE} --role roles/pubsub.publisher",
+        "gcloud eventarc triggers create trigger-storage \\",
+        "  --destination-run-service=${service_name} \\",
+        "  --destination-run-region=${region} \\",
+        "  --event-filters=type=google.cloud.storage.object.v1.finalized \\",
+        "  --event-filters=bucket=YOUR_BUCKET \\",
+        "  --location=${region} \\",
+        "  --service-account=eventarc-trigger-sa@${project_id}.iam.gserviceaccount.com"
+      ],
+      "notes": "This command uses Eventarc to route Cloud Storage finalize events to the Cloud Run service."
+    },
+    {
+      "name": "handle_webhook_request",
+      "description": "Implement an HTTP endpoint in the Cloud Run service to handle incoming webhook events. Return appropriate HTTP status codes and log the payload.",
+      "sample_code": "from flask import Flask, request, jsonify\nimport json\nimport logging\n\napp = Flask(__name__)\n\n@app.route('/webhook', methods=['POST'])\ndef webhook():\n    try:\n        payload = request.get_json()\n        print(json.dumps({\n            'severity': 'INFO',\n            'message': 'Webhook received',\n            'payload': payload\n        }))\n        # process payload...\n        return jsonify({'status': 'ok'}), 200\n    except Exception as e:\n        print(json.dumps({\n            'severity': 'ERROR',\n            'message': 'Webhook processing failed',\n            'error': str(e)\n        }))\n        return jsonify({'error': 'Internal error'}), 500\n\nif __name__ == '__main__':\n    port = int(os.environ.get('PORT', 8080))\n    app.run(host='0.0.0.0', port=port)",
+      "notes": "Always validate HTTP methods (e.g., only allow POST for webhooks). Return 200 OK upon successful processing and 4xx or 5xx codes for errors. Use try/catch to handle exceptions and log errors."
+    }
+  ],
+  "monitoring": {
+    "notes": "Monitor CPU and memory utilization via Cloud Monitoring or third‑party tools. Aim for 50–70% utilization for optimal cost/performance trade‑off. Use Cloud Run's autoscaling settings to set min and max instances and concurrency appropriately."
+  }
+}

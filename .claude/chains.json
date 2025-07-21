@@ -1,0 +1,336 @@
+{
+  "chains": {
+    "morning-setup": {
+      "description": "Complete morning setup routine",
+      "commands": [
+        "smart-resume",
+        "security-check deps",
+        "test-runner changed"
+      ]
+    },
+    "pre-pr": {
+      "description": "Pre-PR validation suite",
+      "commands": [
+        "validate-design",
+        "test-runner changed",
+        "performance-monitor check",
+        "security-check all"
+      ],
+      "stopOnError": true
+    },
+    "feature-complete": {
+      "description": "Complete feature workflow with verification",
+      "commands": [
+        "checkpoint create pre-complete",
+        "validate-design",
+        "test-runner all",
+        "verify --level comprehensive",
+        "performance-monitor compare",
+        "security-check all",
+        "feature-workflow complete"
+      ],
+      "stopOnError": true
+    },
+    "quick-check": {
+      "description": "Quick validation check",
+      "commands": [
+        "validate-design current",
+        "test-runner current",
+        "verify --level quick"
+      ]
+    },
+    "daily-report": {
+      "description": "Generate daily reports",
+      "commands": [
+        "work-status list",
+        "todo report",
+        "analytics report",
+        "performance-monitor report"
+      ]
+    },
+    "error-fix": {
+      "description": "Common error recovery",
+      "commands": [
+        "error-recovery deps",
+        "error-recovery build",
+        "validate-design"
+      ]
+    },
+    "feature-planning": {
+      "description": "Plan new feature with PRD and tasks",
+      "commands": [
+        "create-prd",
+        "generate-tasks",
+        "task-ledger view"
+      ]
+    },
+    "task-sprint": {
+      "description": "Work through tasks systematically",
+      "commands": [
+        "task-ledger view",
+        "process-tasks",
+        "verify-task",
+        "task-checkpoint"
+      ]
+    },
+    "task-review": {
+      "description": "Review task implementation",
+      "commands": [
+        "verify-task",
+        "validate-design",
+        "test-runner current",
+        "browser-test-flow"
+      ]
+    },
+    "context-maintenance": {
+      "description": "Maintain project context",
+      "commands": [
+        "auto-update-context",
+        "analyze-project",
+        "generate-docs",
+        "compress-context --target=70"
+      ]
+    },
+    "daily-startup": {
+      "description": "Enhanced daily startup with task ledger",
+      "commands": [
+        "smart-resume",
+        "task-ledger view",
+        "work-status",
+        "todo list"
+      ]
+    },
+    "safe-commit": {
+      "description": "Safe commit with validation checks",
+      "commands": [
+        "facts all",
+        "validate-design",
+        "lint:fix",
+        "test-runner changed"
+      ],
+      "stopOnError": true,
+      "note": "Auto-staging handled by hook after test success"
+    },
+    "field-sync": {
+      "description": "Sync all field registry generated code",
+      "commands": [
+        "field-generate types",
+        "field-generate schemas",
+        "field-generate factories",
+        "field-generate masking"
+      ]
+    },
+    "pre-component": {
+      "description": "Check before creating new component",
+      "commands": [
+        "exists",
+        "facts components"
+      ]
+    },
+    "python-feature": {
+      "description": "Complete Python feature development",
+      "commands": [
+        "py-prd",
+        "generate-tasks",
+        "capture-to-issue",
+        "python-dependencies check"
+      ]
+    },
+    "python-refactor": {
+      "description": "Safe Python refactoring workflow",
+      "commands": [
+        "python-dependencies check",
+        "python-exists-check",
+        "checkpoint create pre-refactor",
+        "python-import-updater --check"
+      ],
+      "stopOnError": true
+    },
+    "python-api": {
+      "description": "Create Python API endpoint",
+      "commands": [
+        "py-prd",
+        "python-exists-check",
+        "py-api",
+        "test-runner"
+      ]
+    },
+    "python-agent": {
+      "description": "Create AI agent with Pydantic",
+      "commands": [
+        "py-prd",
+        "python-exists-check",
+        "py-agent",
+        "test-runner"
+      ]
+    },
+    "python-pipeline": {
+      "description": "Create data pipeline with Prefect",
+      "commands": [
+        "py-prd",
+        "python-exists-check",
+        "py-pipeline",
+        "test-runner"
+      ]
+    },
+    "prp-workflow": {
+      "description": "Complete PRP workflow",
+      "commands": [
+        "think-level deep",
+        "prp-create",
+        "prp-execute",
+        "prp-status",
+        "prp-complete"
+      ]
+    },
+    "dependency-check": {
+      "description": "Comprehensive dependency analysis",
+      "commands": [
+        "python-dependencies check",
+        "python-dependencies circular",
+        "python-dependencies breaking"
+      ]
+    },
+    "python-quality": {
+      "description": "Python code quality checks",
+      "commands": [
+        "lint-check",
+        "test-runner",
+        "python-dependencies circular",
+        "security-check"
+      ],
+      "stopOnError": true
+    },
+    "issue-workflow": {
+      "description": "Capture and create GitHub issue",
+      "commands": [
+        "capture-to-issue",
+        "generate-issues",
+        "issue-kanban"
+      ]
+    },
+    "multi-agent": {
+      "description": "Multi-agent orchestration",
+      "commands": [
+        "compress-context --focus=task-distribution",
+        "orchestrate-agents",
+        "spawn-agent",
+        "assign-tasks",
+        "sub-agent-status"
+      ],
+      "permissionProfile": "multi_agent"
+    },
+    "cloud-service": {
+      "description": "Complete cloud service deployment workflow",
+      "commands": [
+        "py-prd --cloud",
+        "cloud-deploy --check",
+        "py-api",
+        "cloud-deploy",
+        "check-logs"
+      ],
+      "stopOnError": true
+    },
+    "tdd-feature": {
+      "description": "TDD feature development workflow",
+      "commands": [
+        "py-prd",
+        "prp-create",
+        "generate-issues",
+        "generate-tests",
+        "py-agent",
+        "test-runner",
+        "grade"
+      ],
+      "stopOnError": true
+    },
+    "test-first": {
+      "description": "Generate tests before implementation",
+      "commands": [
+        "generate-tests",
+        "test-runner --expect-fail",
+        "capture-to-issue"
+      ]
+    },
+    "validate-implementation": {
+      "description": "Validate code against tests",
+      "commands": [
+        "test-runner",
+        "lint-check",
+        "python-dependencies check",
+        "grade"
+      ],
+      "stopOnError": true
+    },
+    "deep-debug": {
+      "description": "Deep debugging with enhanced thinking",
+      "commands": [
+        "think-level ultra",
+        "think-through",
+        "test-runner --verbose",
+        "check-logs"
+      ]
+    },
+    "exploration-mode": {
+      "description": "Safe exploration of codebase",
+      "commands": [
+        "context-profile load exploration",
+        "analyze-project",
+        "python-dependencies scan"
+      ],
+      "permissionProfile": "exploration"
+    },
+    "ci-deployment": {
+      "description": "CI/CD deployment workflow",
+      "commands": [
+        "test-runner all",
+        "security-check all",
+        "cloud-deploy"
+      ],
+      "permissionProfile": "ci_pipeline",
+      "stopOnError": true
+    },
+    "context-optimize": {
+      "description": "Optimize context for performance",
+      "commands": [
+        "compress-context --target=50",
+        "checkpoint create post-compress",
+        "analytics token-usage"
+      ]
+    }
+  },
+  "shortcuts": {
+    "ms": "morning-setup",
+    "pp": "pre-pr",
+    "fc": "feature-complete",
+    "qc": "quick-check",
+    "dr": "daily-report",
+    "ef": "error-fix",
+    "fp": "feature-planning",
+    "ts": "task-sprint",
+    "tr": "task-review",
+    "cm": "context-maintenance",
+    "ds": "daily-startup",
+    "sc": "safe-commit",
+    "fs": "field-sync",
+    "pc": "pre-component",
+    "pf": "python-feature",
+    "pr": "python-refactor",
+    "pa": "python-api",
+    "pag": "python-agent",
+    "ppl": "python-pipeline",
+    "prpw": "prp-workflow",
+    "dc": "dependency-check",
+    "pq": "python-quality",
+    "iw": "issue-workflow",
+    "ma": "multi-agent",
+    "cs": "cloud-service",
+    "tdd": "tdd-feature",
+    "tf": "test-first",
+    "vi": "validate-implementation",
+    "dd": "deep-debug",
+    "em": "exploration-mode",
+    "cd": "ci-deployment",
+    "co": "context-optimize"
+  }
+}

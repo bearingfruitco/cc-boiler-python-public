@@ -1,0 +1,241 @@
+{
+  "version": "2.4.0",
+  "project": {
+    "name": "Python AI Agent Boilerplate",
+    "type": "python-agent-system",
+    "description": "AI-powered Python development with smart issue creation and dependency tracking"
+  },
+  "python": {
+    "version": ">=3.11",
+    "package_manager": "poetry",
+    "formatter": "black",
+    "linter": "ruff",
+    "type_checker": "mypy",
+    "test_framework": "pytest",
+    "async_framework": "asyncio"
+  },
+  "dependencies": {
+    "auto_track": true,
+    "scan_on_save": true,
+    "scan_on_commit": true,
+    "track_imports": true,
+    "track_type_hints": true,
+    "alert_threshold": 3,
+    "check_circular": true,
+    "update_imports": true,
+    "annotation_style": "docstring",
+    "frameworks": {
+      "fastapi": ["routers", "dependencies", "models"],
+      "pydantic": ["models", "validators", "config"],
+      "prefect": ["flows", "tasks", "blocks"],
+      "django": ["models", "views", "serializers"]
+    }
+  },
+  "capture_to_issue": {
+    "enabled": true,
+    "similarity_threshold": 0.8,
+    "check_duplicates": true,
+    "include_components": true,
+    "include_dependencies": true,
+    "include_tests": true,
+    "max_content_length": 5000,
+    "auto_link_prd": true,
+    "search_scope": "open",
+    "python_specific": {
+      "extract_imports": true,
+      "extract_type_hints": true,
+      "extract_docstrings": true,
+      "track_async": true
+    }
+  },
+  "prp": {
+    "enabled": true,
+    "default_template": "prp_base_python.md",
+    "ai_docs_path": "PRPs/ai_docs",
+    "validation_levels": 4,
+    "auto_research": true,
+    "confidence_threshold": 7,
+    "execution_tracking": true,
+    "integration": {
+      "with_orchestration": true,
+      "with_issue_tracking": true,
+      "with_dependency_analysis": true
+    },
+    "templates": {
+      "base": "prp_base_python.md",
+      "api": "prp_api.md",
+      "agent": "prp_agent.md",
+      "pipeline": "prp_pipeline.md"
+    }
+  },
+  "creation_guard": {
+    "enabled": true,
+    "check_modules": true,
+    "check_classes": true,
+    "check_functions": true,
+    "check_models": true,
+    "check_api_routes": true,
+    "suggest_alternatives": true,
+    "similarity_threshold": 0.8,
+    "ignore_private": true,
+    "ignore_tests": false
+  },
+  "response_capture": {
+    "enabled": true,
+    "auto_capture": true,
+    "capture_plans": true,
+    "capture_architectures": true,
+    "capture_implementations": true,
+    "min_length": 200,
+    "max_captures": 50,
+    "keywords": [
+      "implement", "plan", "approach", "architecture",
+      "class", "function", "async", "await",
+      "fastapi", "pydantic", "prefect", "pipeline"
+    ]
+  },
+  "hooks": {
+    "creation_guard": {
+      "enabled": true,
+      "commands": ["python3 .claude/hooks/pre-tool-use/16-python-creation-guard.py"]
+    },
+    "dependency_tracker": {
+      "enabled": true,
+      "commands": ["python3 .claude/hooks/pre-tool-use/17-python-dependency-tracker.py"]
+    },
+    "response_capture": {
+      "enabled": true,
+      "commands": ["python3 .claude/hooks/post-tool-use/04-python-response-capture.py"]
+    },
+    "import_updater": {
+      "enabled": true,
+      "commands": ["python3 .claude/hooks/post-tool-use/05-python-import-updater.py"]
+    }
+  },
+  "commands": {
+    "path": ".claude/commands",
+    "aliases": ".claude/aliases.json",
+    "chains": ".claude/chains.json"
+  },
+  "agents": {
+    "framework": "instructor",
+    "base_model": "gpt-4-turbo-preview",
+    "memory_backend": "redis",
+    "available_roles": [
+      "data_analyst",
+      "pipeline_builder",
+      "api_developer",
+      "test_engineer",
+      "security_auditor",
+      "documentation_writer"
+    ]
+  },
+  "tools": {
+    "data": ["pandas", "polars", "duckdb", "arrow"],
+    "api": ["fastapi", "pydantic", "httpx", "strawberry-graphql"],
+    "cli": ["typer", "rich", "click"],
+    "ml": ["scikit-learn", "xgboost", "instructor"],
+    "cloud": ["google-cloud-bigquery", "google-cloud-storage", "boto3"],
+    "orchestration": ["prefect", "dagster", "apache-airflow"],
+    "monitoring": ["loguru", "sentry-sdk", "prometheus-client"]
+  },
+  "context": {
+    "autoCapture": true,
+    "captureInterval": 300000,
+    "storage": ".claude/context",
+    "maxAge": 86400000
+  },
+  "analytics": {
+    "enabled": true,
+    "storage": ".claude/analytics",
+    "retention": 30
+  },
+  "codeQuality": {
+    "enforce": true,
+    "preCommitHooks": [
+      "ruff",
+      "black",
+      "mypy",
+      "pytest",
+      "security"
+    ],
+    "coverage": {
+      "minimum": 80,
+      "exclude": ["tests/*", "scripts/*", "docs/*"]
+    },
+    "complexity": {
+      "max_function_lines": 50,
+      "max_complexity": 10
+    }
+  },
+  "security": {
+    "scanners": ["bandit", "safety", "pip-audit"],
+    "secrets": {
+      "scanner": "detect-secrets",
+      "pre_commit": true
+    },
+    "dependencies": {
+      "check_vulnerabilities": true,
+      "auto_update": false
+    }
+  },
+  "git": {
+    "hooks": {
+      "preCommit": [
+        "format-check",
+        "lint-check",
+        "type-check",
+        "security-scan"
+      ],
+      "prePush": [
+        "test-runner",
+        "coverage-check"
+      ]
+    }
+  },
+  "integrations": {
+    "github": {
+      "enabled": true,
+      "features": ["issues", "actions", "packages"],
+      "auto_link_issues": true,
+      "issue_templates": {
+        "python_feature": ".github/ISSUE_TEMPLATE/python_feature.md",
+        "python_bug": ".github/ISSUE_TEMPLATE/python_bug.md"
+      }
+    },
+    "gcp": {
+      "enabled": true,
+      "services": ["bigquery", "storage", "cloud-run", "cloud-functions"]
+    },
+    "monitoring": {
+      "sentry": true,
+      "datadog": false,
+      "prometheus": true
+    }
+  },
+  "features": {
+    "agent_orchestration": true,
+    "async_pipelines": true,
+    "structured_outputs": true,
+    "memory_persistence": true,
+    "tool_calling": true,
+    "multi_agent_chat": true,
+    "human_in_loop": true,
+    "smart_issue_creation": true,
+    "dependency_tracking": true,
+    "creation_guard": true
+  },
+  "patterns": {
+    "repository": true,
+    "unit_of_work": true,
+    "dependency_injection": true,
+    "event_sourcing": false,
+    "cqrs": false
+  },
+  "documentation": {
+    "auto_generate": true,
+    "style": "google",
+    "api_docs": "mkdocs-material",
+    "include_examples": true
+  }
+}

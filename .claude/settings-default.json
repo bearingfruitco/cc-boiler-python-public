@@ -1,0 +1,61 @@
+{
+  "permissions": {
+    "file_system": {
+      "read": true,
+      "write": true,
+      "create_directories": true
+    },
+    "shell": {
+      "execute": true,
+      "allowed_commands": [
+        "npm", "pnpm", "yarn", "npx", "bun",
+        "git", "gh",
+        "node", "tsx", "ts-node",
+        "python3", "pip3",
+        "prettier", "eslint", "biome",
+        "curl", "wget",
+        "cat", "ls", "grep", "find",
+        "chmod", "mkdir", "rm", "cp", "mv"
+      ]
+    },
+    "web_browser": {
+      "enabled": true
+    }
+  },
+  "context": {
+    "include_patterns": [
+      "CLAUDE.md",
+      "PROJECT_CONTEXT.md",
+      "DESIGN_RULES.md",
+      "docs/**/*.md",
+      ".claude/commands/*.md"
+    ],
+    "exclude_patterns": [
+      "node_modules/**",
+      ".next/**",
+      "dist/**",
+      "build/**",
+      ".git/**",
+      "*.log",
+      ".env*"
+    ],
+    "max_file_size": 100000,
+    "prefer_recent_files": true
+  },
+  "validation": {
+    "auto_check": true,
+    "check_on_save": true,
+    "fix_on_save": false
+  },
+  "ai_behavior": {
+    "test_before_claiming_fixed": true,
+    "explain_complex_changes": true,
+    "ask_before_major_refactors": true,
+    "preserve_comments": true
+  },
+  "team": {
+    "default_user": "shawn",
+    "auto_sync_interval": 300,
+    "backup_to_github": true
+  }
+}

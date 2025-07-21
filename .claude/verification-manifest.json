@@ -1,0 +1,27 @@
+{
+  "verification_rules": {
+    "require_execution_proof": true,
+    "require_test_results": true,
+    "require_integration_check": false,
+    "require_dependency_scan": true,
+    "require_user_accessible": false,
+    "block_on_failure": true,
+    "verification_levels": {
+      "quick": ["tests_exist", "recent_test_run"],
+      "standard": ["tests_exist", "unit_tests", "recent_test_run"],
+      "comprehensive": ["tests_exist", "unit_tests", "integration_tests", "dependency_check", "regression_check"]
+    },
+    "default_level": "standard"
+  },
+  "feature_verifications": {},
+  "regression_tracking": {
+    "baseline_tests": {
+      "count": 0,
+      "passing": 0,
+      "last_run": null
+    },
+    "protected_features": []
+  },
+  "verification_history": [],
+  "last_updated": "2025-01-21T00:00:00Z"
+}

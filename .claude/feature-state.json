@@ -1,0 +1,31 @@
+{
+  "last_updated": "2025-07-21T12:00:00Z",
+  "current_branch": "clean-public",
+  "features": {
+    "example-feature": {
+      "status": "template",
+      "description": "Template for feature tracking",
+      "branch": "main",
+      "files": [],
+      "working_implementation": {
+        "description": "Example feature template",
+        "key_functions": [],
+        "test_coverage": "0%"
+      }
+    }
+  },
+  "branches": {
+    "main": {
+      "last_merge": "2025-07-21",
+      "stable_features": []
+    }
+  },
+  "protected_files": {},
+  "branch_rules": {
+    "max_active_branches": 1,
+    "require_main_sync": true,
+    "require_tests_before_new": true,
+    "auto_cleanup_merged": true,
+    "prevent_conflicting_branches": true
+  }
+}

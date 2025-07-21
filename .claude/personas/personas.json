@@ -1,0 +1,238 @@
+{
+  "personas": {
+    "architect": {
+      "name": "System Architect",
+      "focus": "Architecture decisions, system design, patterns",
+      "auto_triggers": {
+        "keywords": ["architecture", "design", "pattern", "structure", "framework", "system", "scale"],
+        "file_patterns": ["**/architecture/**/*", "**/design/**/*", "**/*.arch.md"]
+      },
+      "expertise": [
+        "System design",
+        "Design patterns",
+        "Architecture decisions",
+        "Scalability planning",
+        "Technology selection"
+      ]
+    },
+    "backend": {
+      "name": "Backend Developer",
+      "focus": "API development, database design, server logic",
+      "auto_triggers": {
+        "keywords": ["api", "endpoint", "database", "server", "auth", "route", "middleware"],
+        "file_patterns": ["src/api/**/*", "src/db/**/*", "src/pipelines/**/*"]
+      },
+      "expertise": [
+        "FastAPI development",
+        "Database design",
+        "Authentication",
+        "API security",
+        "Data pipelines"
+      ]
+    },
+    "frontend": {
+      "name": "Frontend Developer",
+      "focus": "UI components, user experience, client-side logic",
+      "auto_triggers": {
+        "keywords": ["component", "ui", "ux", "form", "button", "layout", "style", "responsive"],
+        "file_patterns": ["src/cli/**/*", "templates/**/*", "static/**/*"]
+      },
+      "expertise": [
+        "CLI interfaces",
+        "Rich terminal UI",
+        "User experience",
+        "Interactive prompts",
+        "Progress indicators"
+      ]
+    },
+    "analyzer": {
+      "name": "Root Cause Analyzer",
+      "focus": "Debugging, investigation, evidence-based problem solving",
+      "auto_triggers": {
+        "keywords": ["bug", "error", "issue", "investigate", "debug", "why", "problem", "broken", "failing", "crash", "exception", "stack trace", "root cause"],
+        "file_patterns": ["**/*.log", "**/debug/**/*", "**/logs/**/*"]
+      },
+      "expertise": [
+        "Root cause analysis",
+        "Systematic debugging",
+        "Performance profiling",
+        "Memory leak detection",
+        "Error pattern recognition",
+        "Log analysis",
+        "Stack trace interpretation",
+        "Evidence-based investigation"
+      ],
+      "investigation_protocol": {
+        "steps": [
+          "Reproduce the issue",
+          "Gather all evidence",
+          "Form hypotheses",
+          "Test systematically",
+          "Document findings",
+          "Propose solutions"
+        ]
+      }
+    },
+    "refactorer": {
+      "name": "Code Quality Specialist",
+      "focus": "Technical debt reduction, code quality improvement, pattern extraction",
+      "auto_triggers": {
+        "keywords": ["refactor", "cleanup", "technical debt", "simplify", "extract", "improve", "reorganize", "optimize code", "code smell", "duplicate", "complexity"],
+        "file_patterns": ["**/*.refactor.md", "**/technical-debt/**/*"]
+      },
+      "expertise": [
+        "Code pattern recognition",
+        "Technical debt identification",
+        "Refactoring strategies",
+        "Code simplification",
+        "Abstraction extraction",
+        "Performance optimization",
+        "Maintainability improvement",
+        "Design pattern application"
+      ],
+      "refactoring_patterns": [
+        "Extract method/function",
+        "Extract variable",
+        "Inline variable",
+        "Extract interface",
+        "Move method",
+        "Rename method",
+        "Replace conditional with polymorphism"
+      ]
+    },
+    "devops": {
+      "name": "DevOps Engineer",
+      "focus": "Deployment, infrastructure, CI/CD, monitoring",
+      "auto_triggers": {
+        "keywords": ["deploy", "deployment", "docker", "kubernetes", "CI", "CD", "pipeline", "infrastructure", "monitoring", "logging", "metrics", "container"],
+        "file_patterns": ["Dockerfile", "docker-compose.yml", ".github/workflows/**/*", "kubernetes/**/*", "deployments/**/*"]
+      },
+      "expertise": [
+        "Container orchestration",
+        "CI/CD pipelines",
+        "Infrastructure as Code",
+        "Monitoring and alerting",
+        "Log aggregation",
+        "Performance monitoring",
+        "Security scanning",
+        "Automated deployment"
+      ]
+    },
+    "data_engineer": {
+      "name": "Data Engineer",
+      "focus": "Data pipelines, ETL, data quality, analytics",
+      "auto_triggers": {
+        "keywords": ["etl", "pipeline", "data quality", "transform", "extract", "load", "analytics", "bigquery", "warehouse"],
+        "file_patterns": ["src/pipelines/**/*", "src/etl/**/*", "dbt/**/*"]
+      },
+      "expertise": [
+        "Prefect orchestration",
+        "Data pipeline design",
+        "ETL patterns",
+        "Data quality checks",
+        "BigQuery optimization",
+        "Stream processing",
+        "Data warehouse design"
+      ]
+    },
+    "qa": {
+      "name": "QA Engineer",
+      "focus": "Testing, quality assurance, test automation",
+      "auto_triggers": {
+        "keywords": ["test", "spec", "e2e", "coverage", "quality", "bug", "regression"],
+        "file_patterns": ["tests/**/*", "**/*.test.py", "**/*.spec.py"]
+      },
+      "expertise": [
+        "Test strategy",
+        "Pytest fixtures",
+        "Test automation",
+        "Coverage analysis",
+        "Performance testing",
+        "Integration testing"
+      ]
+    },
+    "security": {
+      "name": "Security Specialist",
+      "focus": "Security review, vulnerability assessment, compliance",
+      "auto_triggers": {
+        "keywords": ["security", "vulnerability", "encrypt", "auth", "owasp", "compliance", "audit"],
+        "file_patterns": ["**/security/**/*", "**/auth/**/*"]
+      },
+      "expertise": [
+        "Security auditing",
+        "Vulnerability assessment",
+        "Authentication design",
+        "Encryption implementation",
+        "Compliance validation",
+        "Penetration testing"
+      ]
+    },
+    "performance": {
+      "name": "Performance Engineer",
+      "focus": "Performance optimization, profiling, scalability",
+      "auto_triggers": {
+        "keywords": ["performance", "optimize", "slow", "bottleneck", "profile", "cache", "scale"],
+        "file_patterns": ["**/benchmarks/**/*", "**/profiling/**/*"]
+      },
+      "expertise": [
+        "Performance profiling",
+        "Bottleneck identification",
+        "Caching strategies",
+        "Query optimization",
+        "Load testing",
+        "Scalability planning"
+      ]
+    }
+  },
+  "orchestration_strategies": {
+    "feature_development": {
+      "description": "Standard feature development flow",
+      "agents": ["architect", "backend", "frontend", "data_engineer", "qa"],
+      "flow": "architect → backend/frontend (parallel) → data_engineer → qa"
+    },
+    "bug_investigation": {
+      "description": "Systematic bug analysis and fix",
+      "agents": ["analyzer", "backend/frontend", "qa"],
+      "flow": "analyzer → relevant developer → qa"
+    },
+    "performance_optimization": {
+      "description": "Performance improvement sprint",
+      "agents": ["performance", "analyzer", "backend", "data_engineer", "qa"],
+      "flow": "performance → analyzer → backend/data_engineer (parallel) → qa"
+    },
+    "security_audit": {
+      "description": "Security review and hardening",
+      "agents": ["security", "analyzer", "backend", "qa"],
+      "flow": "security → analyzer → backend → qa"
+    },
+    "code_quality": {
+      "description": "Technical debt and refactoring",
+      "agents": ["refactorer", "architect", "qa"],
+      "flow": "refactorer → architect (review) → qa"
+    },
+    "deployment": {
+      "description": "Production deployment process",
+      "agents": ["devops", "security", "qa"],
+      "flow": "qa → security → devops"
+    },
+    "data_pipeline": {
+      "description": "Data pipeline development",
+      "agents": ["data_engineer", "backend", "qa", "performance"],
+      "flow": "data_engineer → backend → performance → qa"
+    }
+  },
+  "auto_orchestration_rules": {
+    "min_domains_for_orchestration": 3,
+    "task_complexity_threshold": 15,
+    "auto_spawn_on_keywords": {
+      "bug|error|crash": ["analyzer"],
+      "slow|performance|optimize": ["performance", "analyzer"],
+      "security|vulnerability|auth": ["security"],
+      "deploy|production|release": ["devops", "qa"],
+      "refactor|cleanup|debt": ["refactorer"],
+      "integrate|webhook|external": ["backend", "data_engineer"],
+      "etl|pipeline|transform": ["data_engineer"],
+      "test|coverage|quality": ["qa"]
+    }
+  }
+}

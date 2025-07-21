@@ -1,0 +1,123 @@
+{
+  "team": {
+    "members": [
+      "shawn",
+      "nikki"
+    ],
+    "sync_interval": 300,
+    "auto_pull": true,
+    "conflict_strategy": "prompt"
+  },
+  "task_ledger": {
+    "enabled": true,
+    "auto_update": true,
+    "track_time": false,
+    "show_in_suggestions": true,
+    "update_on_commands": [
+      "generate-tasks",
+      "process-tasks",
+      "feature-workflow",
+      "verify-task"
+    ]
+  },
+  "github": {
+    "gist_visibility": "secret",
+    "use_worktrees": true
+  },
+  "python_specific": {
+    "enforce_type_hints": true,
+    "check_docstrings": true,
+    "validate_imports": true,
+    "track_dependencies": true
+  },
+  "safety": {
+    "block_dangerous_commands": true,
+    "protect_production": true,
+    "require_evidence": true
+  },
+  "persistence": {
+    "auto_save_interval": 60,
+    "save_to_gist": true,
+    "capture_responses": true
+  },
+  "cloud": {
+    "validate_configs": true,
+    "check_iam_roles": true,
+    "enforce_structured_logging": true,
+    "warn_on_secrets": true
+  },
+  "tdd": {
+    "enforce": true,
+    "coverage_threshold": 80,
+    "allow_override": false
+  },
+  "test_validation": {
+    "auto_run": true,
+    "block_on_failure": true,
+    "coverage_required": false
+  },
+  "branch_management": {
+    "enabled": true,
+    "max_active_branches": 1,
+    "require_main_sync_hours": 24,
+    "require_tests_before_switch": true,
+    "require_tests_before_new": true,
+    "auto_stash_on_switch": true,
+    "warn_branch_age_days": 7,
+    "block_conflicting_files": true,
+    "strict_mode": true
+  },
+  "feature_protection": {
+    "enabled": true,
+    "strict_mode": true,
+    "require_confirmation": true,
+    "track_working_implementations": true,
+    "warn_on_branch_mismatch": true
+  },
+  "verification": {
+    "enabled": true,
+    "strict_mode": false,
+    "block_on_failure": false,
+    "require_integration_tests": false,
+    "require_regression_check": false,
+    "coverage_threshold": 80,
+    "skip_quick_tasks": true,
+    "completion_phrases": [
+      "implementation complete",
+      "feature is now complete",
+      "successfully implemented",
+      "done implementing",
+      "finished implementing",
+      "✅ completed",
+      "task completed",
+      "feature complete",
+      "implementation is complete",
+      "completed the implementation"
+    ]
+  },
+  "screenshot_capture": {
+    "enabled": true,
+    "on_test_failure": true,
+    "capture_browser_tests": true,
+    "storage_path": ".claude/screenshots",
+    "link_to_task_ledger": true
+  },
+  "auto_staging": {
+    "enabled": true,
+    "after_tests_pass": true,
+    "after_file_edits": true,
+    "exclude_patterns": [".env", ".env.*", "secrets/", "*.pem", "*.key"],
+    "include_patterns": ["src/**", "tests/**", "*.py", "*.ts", "*.tsx"]
+  },
+  "permission_profiles": {
+    "enabled": true,
+    "default": "development",
+    "auto_switch": true
+  },
+  "thinking_levels": {
+    "enabled": true,
+    "default": "standard",
+    "auto_escalate": true,
+    "track_usage": true
+  }
+}

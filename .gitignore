@@ -1,0 +1,215 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.production
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+
+# API Keys and Secrets
+*.key
+*.pem
+*.cert
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+private/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Documentation builds
+docs/_build/
+site/
+
+# Security
+security/
+ssl/
+certificates/
+
+# Backup files
+backup/
+backups/
+*.backup
+*.bk
+.backup/
+*.bak
+
+# Personal notes
+notes/
+personal/
+private-notes/
+TODO.personal.md
+
+# Temporary fix scripts
+fix-*.sh
+push-*.sh
+git-*.sh
+
+# Archive directories
+docs/archive/
+
+# One-off migration scripts
+*-cleanup-*.md
+*-migration-*.md
+CLEANUP_*.md
+DOCUMENTATION_UPDATE_*.md
+
+# Temporary analysis scripts
+analyze-*.py
+reorganize-*.py
+reorganize-*.sh
+cleanup-*.sh
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# MCP config with secrets
+.mcp.json
+.mcp.json.local
+.mcp-local.json
+mcp-config.json
+*-mcp-config.json
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Claude Code logs and transcripts
+.claude/logs/
+.claude/transcripts/
+.claude/checkpoints/
+.claude/team/
+.claude/orchestration/active/
+.claude/backups/
+.claude/captures/
+.claude/analytics/
+.claude/bugs/
+.claude/profiles/
+.claude/python-deps/
+.claude/research/
+.claude/utils/__pycache__/
+.claude/*.local.json
+.claude/*-local.json
+.claude/settings-local*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Package locks (optional)
+# pnpm-lock.yaml
+# yarn.lock
+# package-lock.json
+
+# JavaScript-specific (not needed for Python)
+.husky/
+node_modules/
+.npm/
+.yarn/
+
+# Temporary fix scripts
+fix-*.sh
+push-*.sh
+git-*.sh
+
+# Additional safety for public repo
+.env
+.env.*
+!.env.example
+.mcp.json
+.mcp-local.json
+mcp-config.json
+!.mcp-example.json
+.claude/logs/
+.claude/transcripts/
+.claude/analytics/
+.claude/team/
+.claude/captures/
+.claude/*.local.json

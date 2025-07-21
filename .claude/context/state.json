@@ -1,0 +1,79 @@
+{
+  "learned_patterns": [
+    {
+      "pattern": "auth-with-supabase",
+      "last_used": "2024-01-15",
+      "success_rate": 0.95,
+      "notes": "Always check session on mount, handle token refresh"
+    },
+    {
+      "pattern": "react-query-setup",
+      "last_used": "2024-01-14",
+      "success_rate": 0.98,
+      "notes": "Configure stale times based on data volatility"
+    },
+    {
+      "pattern": "form-with-zod",
+      "last_used": "2024-01-13",
+      "success_rate": 0.92,
+      "notes": "Always validate on client AND server"
+    }
+  ],
+  "project_decisions": [
+    {
+      "decision": "Use Zustand for global state",
+      "rationale": "Simpler than Redux, works well with React Query for server state",
+      "date": "2024-01-10",
+      "category": "state-management"
+    },
+    {
+      "decision": "Supabase for auth and database",
+      "rationale": "Built-in auth, real-time, RLS policies",
+      "date": "2024-01-10",
+      "category": "infrastructure"
+    },
+    {
+      "decision": "4px grid spacing system",
+      "rationale": "Consistent spacing, easier calculations, better visual rhythm",
+      "date": "2024-01-10",
+      "category": "design-system"
+    }
+  ],
+  "common_errors": [
+    {
+      "error": "Forgetting loading states",
+      "solution": "Always destructure isLoading from queries",
+      "frequency": 12,
+      "last_seen": "2024-01-15"
+    },
+    {
+      "error": "Direct state mutation",
+      "solution": "Use spread operator or map to create new state",
+      "frequency": 8,
+      "last_seen": "2024-01-14"
+    },
+    {
+      "error": "Missing await on async calls",
+      "solution": "ESLint rule for floating promises",
+      "frequency": 15,
+      "last_seen": "2024-01-15"
+    }
+  ],
+  "performance_benchmarks": {
+    "initial_load": {
+      "target": "< 3s",
+      "current": "2.1s",
+      "measured": "2024-01-15"
+    },
+    "api_response": {
+      "target": "< 500ms",
+      "current": "320ms",
+      "measured": "2024-01-15"
+    },
+    "bundle_size": {
+      "target": "< 200kb",
+      "current": "156kb",
+      "measured": "2024-01-15"
+    }
+  }
+}

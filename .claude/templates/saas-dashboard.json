@@ -1,0 +1,111 @@
+{
+  "name": "SaaS Dashboard",
+  "description": "Multi-tenant SaaS application with dashboard",
+  "features": [
+    "authentication",
+    "dashboard",
+    "billing",
+    "user-management",
+    "analytics"
+  ],
+  "structure": {
+    "directories": [
+      "app/(auth)/login",
+      "app/(auth)/register",
+      "app/(auth)/forgot-password",
+      "app/(dashboard)/overview",
+      "app/(dashboard)/analytics",
+      "app/(dashboard)/settings",
+      "app/(dashboard)/billing",
+      "app/api/auth",
+      "app/api/users",
+      "app/api/billing",
+      "components/dashboard",
+      "components/charts",
+      "components/billing"
+    ],
+    "components": [
+      {
+        "type": "layout",
+        "name": "DashboardLayout",
+        "features": ["sidebar", "header", "mobile-responsive"]
+      },
+      {
+        "type": "ui",
+        "name": "StatsCard",
+        "features": ["animated", "responsive"]
+      },
+      {
+        "type": "ui",
+        "name": "Chart",
+        "features": ["line", "bar", "pie"]
+      },
+      {
+        "type": "feature",
+        "name": "UserTable",
+        "features": ["sortable", "filterable", "paginated"]
+      },
+      {
+        "type": "feature",
+        "name": "BillingForm",
+        "features": ["stripe", "validation"]
+      }
+    ],
+    "dependencies": {
+      "required": [
+        "@tanstack/react-query",
+        "recharts",
+        "stripe",
+        "@supabase/supabase-js"
+      ],
+      "optional": [
+        "resend",
+        "@sentry/nextjs",
+        "posthog-js"
+      ]
+    }
+  },
+  "setup": [
+    {
+      "step": "Create auth flow",
+      "commands": [
+        "create-component feature AuthForm --with-tests",
+        "create-component layout AuthLayout"
+      ]
+    },
+    {
+      "step": "Create dashboard",
+      "commands": [
+        "create-component layout DashboardLayout",
+        "create-component ui StatsCard --with-tests",
+        "create-component feature UserTable"
+      ]
+    },
+    {
+      "step": "Setup API",
+      "commands": [
+        "generate-docs api-routes auth",
+        "generate-docs api-routes users"
+      ]
+    }
+  ],
+  "environment": {
+    "required": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "STRIPE_SECRET_KEY",
+      "STRIPE_WEBHOOK_SECRET"
+    ],
+    "optional": [
+      "RESEND_API_KEY",
+      "SENTRY_DSN",
+      "POSTHOG_KEY"
+    ]
+  },
+  "designSystem": {
+    "primaryColor": "blue",
+    "style": "professional",
+    "darkMode": true
+  }
+}

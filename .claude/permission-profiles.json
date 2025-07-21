@@ -1,0 +1,134 @@
+{
+  "profiles": {
+    "exploration": {
+      "description": "Read-only exploration mode for codebase discovery",
+      "auto_approve": [
+        "filesystem:read_file",
+        "filesystem:read_multiple_files",
+        "filesystem:list_directory",
+        "filesystem:list_directory_with_sizes",
+        "filesystem:directory_tree",
+        "filesystem:get_file_info",
+        "filesystem:search_files",
+        "filesystem:list_allowed_directories",
+        "shell_command:ls",
+        "shell_command:pwd",
+        "shell_command:git status",
+        "shell_command:git log"
+      ],
+      "require_approval": ["*"]
+    },
+    "development": {
+      "description": "Standard development mode with safety checks",
+      "auto_approve": [
+        "filesystem:read_*",
+        "filesystem:list_*",
+        "filesystem:directory_tree",
+        "filesystem:get_file_info",
+        "filesystem:search_files",
+        "filesystem:write_file:tests/**",
+        "filesystem:write_file:**/*.test.*",
+        "filesystem:write_file:**/*.spec.*",
+        "filesystem:write_file:.claude/checkpoints/**",
+        "filesystem:write_file:.claude/transcripts/**",
+        "filesystem:write_file:.claude/captures/**",
+        "filesystem:write_file:.claude/screenshots/**",
+        "filesystem:edit_file:tests/**",
+        "filesystem:edit_file:**/*.test.*",
+        "filesystem:create_directory:tests/**",
+        "filesystem:create_directory:.claude/**",
+        "shell_command:npm test",
+        "shell_command:npm run test",
+        "shell_command:npm run lint",
+        "shell_command:npm run type-check",
+        "shell_command:pytest",
+        "shell_command:python -m pytest",
+        "shell_command:ruff check",
+        "shell_command:ruff format --check",
+        "shell_command:mypy",
+        "shell_command:git add",
+        "shell_command:git commit",
+        "shell_command:git diff",
+        "shell_command:git status"
+      ],
+      "require_approval": [
+        "shell_command:rm *",
+        "shell_command:sudo *",
+        "shell_command:pip install *",
+        "shell_command:npm install *",
+        "filesystem:write_file:.env*",
+        "filesystem:write_file:**/secrets/**",
+        "filesystem:write_file:**/production/**",
+        "filesystem:write_file:.git/**"
+      ]
+    },
+    "testing": {
+      "description": "Testing mode with broader file access",
+      "auto_approve": [
+        "filesystem:*",
+        "shell_command:pytest*",
+        "shell_command:python -m pytest*",
+        "shell_command:npm test*",
+        "shell_command:npm run test*",
+        "shell_command:playwright*",
+        "shell_command:jest*",
+        "shell_command:vitest*",
+        "shell_command:coverage*"
+      ],
+      "require_approval": [
+        "shell_command:rm -rf",
+        "filesystem:write_file:.env",
+        "filesystem:write_file:**/.git/**"
+      ]
+    },
+    "ci_pipeline": {
+      "description": "CI/CD pipeline mode for automated workflows",
+      "auto_approve": ["*"],
+      "except": [
+        "shell_command:rm -rf /",
+        "shell_command:sudo rm -rf",
+        "shell_command::(){ :|:& };:",
+        "filesystem:write_file:/etc/**",
+        "filesystem:write_file:~/.ssh/**",
+        "filesystem:write_file:/System/**",
+        "filesystem:write_file:/usr/**",
+        "filesystem:write_file:/bin/**"
+      ]
+    },
+    "multi_agent": {
+      "description": "Multi-agent orchestration mode",
+      "auto_approve": [
+        "filesystem:read_*",
+        "filesystem:write_file:src/**",
+        "filesystem:write_file:tests/**",
+        "filesystem:edit_file:src/**",
+        "filesystem:edit_file:tests/**",
+        "filesystem:create_directory:**",
+        "shell_command:python*",
+        "shell_command:npm run*",
+        "shell_command:git add",
+        "shell_command:git commit"
+      ],
+      "require_approval": [
+        "shell_command:git push",
+        "shell_command:rm *",
+        "filesystem:write_file:.env*"
+      ]
+    }
+  },
+  "default_profile": "development",
+  "profile_triggers": {
+    "commands": {
+      "/explore": "exploration",
+      "/test": "testing",
+      "/orch": "multi_agent",
+      "/chain ma": "multi_agent",
+      "/cloud-deploy": "ci_pipeline"
+    },
+    "environments": {
+      "CI": "ci_pipeline",
+      "GITHUB_ACTIONS": "ci_pipeline",
+      "CLAUDE_PERMISSION_PROFILE": "$value"
+    }
+  }
+}
