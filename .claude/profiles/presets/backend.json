@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "description": "Backend API development profile",
+  "created": "2024-01-15T10:00:00Z",
+  "context": {
+    "documentation": [
+      "docs/technical/api-boilerplate.md",
+      "docs/guides/database-orm-guide.md",
+      "docs/development/auth-guide.md"
+    ],
+    "commands": [
+      "security-check",
+      "generate-field-types",
+      "audit-form-security"
+    ],
+    "persona": "backend",
+    "excludePatterns": [
+      "components/**",
+      "styles/**",
+      "public/**"
+    ]
+  }
+}

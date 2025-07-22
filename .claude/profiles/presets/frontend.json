@@ -1,0 +1,23 @@
+{
+  "name": "frontend",
+  "description": "Frontend UI development profile",
+  "created": "2024-01-15T10:00:00Z",
+  "context": {
+    "documentation": [
+      "docs/design/design-system.md",
+      "docs/design/components.md",
+      "docs/design/design-rules-quick.md"
+    ],
+    "commands": [
+      "create-component",
+      "validate-design",
+      "extract-style"
+    ],
+    "persona": "frontend",
+    "excludePatterns": [
+      "app/api/**",
+      "lib/db/**",
+      "scripts/**"
+    ]
+  }
+}

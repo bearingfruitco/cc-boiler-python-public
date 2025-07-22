@@ -1,0 +1,23 @@
+{
+  "name": "debug",
+  "description": "Bug fixing and debugging profile",
+  "created": "2024-01-15T10:00:00Z",
+  "context": {
+    "documentation": [
+      "docs/guides/testing-guide.md",
+      "docs/claude/TRUTH_ENFORCEMENT_GUIDE.md"
+    ],
+    "commands": [
+      "bug-track",
+      "test-runner",
+      "browser-test-flow",
+      "error-recovery"
+    ],
+    "persona": "qa",
+    "includePatterns": [
+      "tests/**",
+      "*.test.ts",
+      "*.spec.ts"
+    ]
+  }
+}

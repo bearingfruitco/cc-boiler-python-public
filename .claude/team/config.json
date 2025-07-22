@@ -1,0 +1,18 @@
+{
+  "current_user": "shawn",
+  "project_type": "python",
+  "focus_areas": [
+    "AI agents",
+    "FastAPI",
+    "Data pipelines",
+    "Python best practices"
+  ],
+  "excluded_patterns": [
+    "*.js",
+    "*.jsx",
+    "*.ts",
+    "*.tsx",
+    "*.css",
+    "*.scss"
+  ]
+}
