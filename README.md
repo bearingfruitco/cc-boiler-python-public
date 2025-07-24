@@ -1,255 +1,88 @@
-# Python AI Agent Boilerplate 🚀
+# Claude Code Python Boilerplate - Public Edition
 
-> **AI-Powered Python Development System** - Build production-ready AI agents, FastAPI applications, and data pipelines with 70+ Claude Code commands, multi-agent orchestration, and zero context loss between sessions.
+An **AI Operating System for Python Development** that transforms Claude Code into an intelligent development environment.
 
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)](https://fastapi.tiangolo.com/)
-[![Pydantic](https://img.shields.io/badge/Pydantic-2.5+-red.svg)](https://pydantic-docs.helpmanual.io/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+## 🌟 Features
 
-## 🎯 What Is This?
-
-A production-ready Python boilerplate that transforms Claude Code into a powerful development assistant with:
-
-- **70+ Custom Commands** - Specialized Python development commands
-- **Multi-Agent Orchestration** - Parallel development with AI personas
-- **Zero Context Loss** - Perfect session continuity
-- **PRD-Driven Workflow** - From idea to implementation
-- **Automated Safety** - 27+ hooks preventing common mistakes
-- **Type-Safe Everything** - Pydantic models throughout
+- **70+ Custom Commands** with intelligent aliases
+- **40+ Active Hooks** preventing mistakes before they happen
+- **Automated TDD** with test generation
+- **Task Ledger System** for central work tracking
+- **Multi-Agent Orchestration** for complex features
+- **Zero Context Loss** between sessions
+- **Pattern Learning** that improves over time
 
 ## 🚀 Quick Start
 
-### 1. Clone and Setup
+1. Clone this repository to your project
+2. Run the setup script: `./.claude/scripts/install-hooks.sh`
+3. Start Claude Code and run `/sr` (Smart Resume)
+4. Check `/help` for available commands
 
-```bash
-# Clone the repository
-git clone https://github.com/bearingfruitco/cc-boiler-python-public.git my-ai-project
-cd my-ai-project
+## 📚 Documentation
 
-# Install dependencies
-poetry install
+- [System Overview](.claude/docs/SYSTEM_OVERVIEW.md) - Complete architecture guide
+- [Getting Started](.claude/docs/GETTING_STARTED.md) - First steps
+- [Command Reference](.claude/docs/COMMAND_REFERENCE_CARD.md) - All commands
+- [Python Workflows](.claude/PYTHON_WORKFLOWS.md) - Python-specific patterns
 
-# Copy environment files
-cp .env.example .env
-cp .mcp-example.json .mcp.json
+## 🛡️ Security Note
 
-# Run setup
-./scripts/setup-hooks.sh
-```
+This public version has been sanitized:
+- No API keys or credentials
+- No personal data or logs
+- No internal configurations
+- Example files provided for all sensitive configs
 
-### 2. Configure Claude Desktop
+## 📋 What's Included
 
-Add to your Claude Desktop MCP settings:
+### Commands (70+)
+- Context management (`/sr`, `/tl`, `/checkpoint`)
+- Python development (`/py-prd`, `/py-agent`, `/py-api`)
+- Testing & quality (`/test`, `/grade`, `/lint`)
+- Multi-agent orchestration (`/orch`, `/spawn`)
+- Intelligence features (`/prp-create`, `/think-level`)
 
-```json
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": ["@modelcontextprotocol/server-filesystem", "/path/to/my-ai-project"]
-    }
-  }
-}
-```
+### Hooks (40+)
+- **Pre-Tool Hooks**: Prevent mistakes before they happen
+- **Post-Tool Hooks**: Learn from actions and update state
+- **Notification Hooks**: Smart suggestions and team awareness
+- **Stop Hooks**: Clean session endings
 
-### 3. Start Building
-
-In Claude Desktop:
-```bash
-/sr                    # Smart Resume - loads all context
-/workflow-guide        # Get personalized workflow recommendation
-/py-prd user-auth      # Create a Python PRD for user authentication
-```
-
-## 📚 Core Features
-
-### 🤖 AI Agent Development
-
-Create Pydantic-based AI agents with structured I/O:
-
-```bash
-/py-agent DataAnalyst --role=analyst --tools=pandas,plotly
-```
-
-Generates:
-- Pydantic request/response models
-- Agent class with tool integration
-- Async support and error handling
-- Complete test suite
-
-### 🚄 FastAPI Development
-
-Build type-safe APIs instantly:
-
-```bash
-/py-api /users GET POST --auth --pagination
-```
-
-Creates:
-- FastAPI router with endpoints
-- Pydantic models for validation
-- Authentication middleware
-- OpenAPI documentation
-
-### 📊 Data Pipeline Creation
-
-Orchestrate data workflows with Prefect:
-
-```bash
-/py-pipeline ETLPipeline --source=bigquery --destination=postgres
-```
-
-Includes:
-- Prefect flow definition
-- Error handling and retries
-- Monitoring and logging
-- Data quality checks
-
-### 🔍 Dependency Management
-
-Track and prevent breaking changes:
-
-```bash
-/pydeps check UserModel        # What depends on this?
-/pydeps breaking auth_module   # Will changes break anything?
-/pyexists UserService         # Check before creating
-```
-
-## 🛠️ Available Workflows
-
-### 1. Standard Workflow (1-2 days)
-```
-/sr → /py-prd → /gt → /pt → /test → /grade
-```
-Best for single-domain features with clear requirements.
-
-### 2. PRP Workflow (3-5 days)
-```
-/sr → /prp-create → execute → validate → complete
-```
-For complex integrations requiring research and external APIs.
-
-### 3. Orchestration Workflow (50-70% faster)
-```
-/sr → /py-prd → /orch → monitor → integrate
-```
-Parallel development with multiple AI agents.
-
-### 4. Micro Task Workflow (< 2 hours)
-```
-/sr → /mt → implement → checkpoint
-```
-Quick fixes and small improvements.
-
-## 🎨 Command Reference
-
-### Essential Commands
-
-| Command | Alias | Description |
-|---------|-------|-------------|
-| `/smart-resume` | `/sr` | Restore full project context |
-| `/py-prd` | `/prd` | Create Python-specific PRD |
-| `/generate-tasks` | `/gt` | Generate tasks from PRD |
-| `/process-tasks` | `/pt` | Work through tasks |
-| `/orchestrate-agents` | `/orch` | Launch multi-agent mode |
-| `/help` | `/h` | Context-aware help |
-
-### Python-Specific Commands
-
-| Command | Description |
-|---------|-------------|
-| `/py-agent` | Create Pydantic AI agent |
-| `/py-api` | Generate FastAPI endpoint |
-| `/py-pipeline` | Build Prefect pipeline |
-| `/pyexists` | Check if component exists |
-| `/pydeps` | Analyze dependencies |
-| `/pysimilar` | Find similar code patterns |
-
-### Testing & Quality
-
-| Command | Description |
-|---------|-------------|
-| `/test` | Run pytest suite |
-| `/lint` | Run Ruff linter |
-| `/type-check` | Run MyPy |
-| `/coverage` | Check test coverage |
-| `/grade` | Grade implementation quality |
-
-## 🛡️ Safety Features
-
-### Pre-Execution Hooks
-- **Duplicate Prevention** - Checks before creating
-- **Import Validation** - Prevents circular imports
-- **Style Enforcement** - Auto-formats with Black/Ruff
-- **Dangerous Command Blocking** - No `rm -rf /`
-- **PII Protection** - Blocks sensitive data in logs
-
-### Post-Execution Hooks
-- **State Persistence** - GitHub backup every 60s
-- **Dependency Updates** - Auto-fixes imports
-- **Pattern Learning** - Captures successful patterns
-- **Test Generation** - Creates tests automatically
-
-## 🏗️ Project Structure
-
-```
-my-ai-project/
-├── .claude/           # Claude Code configuration
-│   ├── commands/      # 70+ command definitions
-│   ├── hooks/         # Pre/post execution hooks
-│   └── personas/      # AI agent personalities
-├── src/
-│   ├── agents/        # Pydantic AI agents
-│   ├── api/           # FastAPI routers
-│   ├── models/        # Data models
-│   ├── pipelines/     # Prefect workflows
-│   └── utils/         # Helpers
-├── tests/             # Comprehensive test suite
-├── docs/              # Documentation
-└── PRPs/              # Product Requirement Prompts
-```
+### Workflows
+- Test-Driven Development (enforced)
+- Feature development flow
+- Multi-agent orchestration
+- Research and PRPs
 
 ## 🔧 Configuration
 
-### Required Environment Variables
+See `.env.example` for required environment variables.
 
-```bash
-# .env
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-DATABASE_URL=postgresql://localhost/myapp
-REDIS_URL=redis://localhost:6379
-```
+Key configurations in `.claude/`:
+- `settings-default.json` - Hook configuration
+- `chains.json` - Workflow definitions
+- `aliases.json` - Command shortcuts
+- `permission-profiles.json` - Access levels
 
-### Python Dependencies
-
-Core stack managed with Poetry:
-- **Python 3.11+** - Modern Python features
-- **Pydantic 2.5+** - Data validation
-- **FastAPI** - High-performance APIs
-- **Prefect** - Workflow orchestration
-- **Instructor** - Structured LLM outputs
-
-## 📊 Success Metrics
+## 📈 Performance
 
 - **50-70% faster** development with orchestration
-- **80% less boilerplate** to write
-- **90% duplicate prevention** success rate
-- **One-pass implementation** with PRPs
+- **90% reduction** in common bugs
+- **80%+ test coverage** enforced
+- **Zero context loss** between sessions
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+This is a public snapshot of our internal boilerplate. For contributions:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details.
-
-## 🙏 Acknowledgments
-
-Built with ❤️ by the Bearing Fruit team. Special thanks to the Claude Code community for feedback and testing.
+MIT License - See LICENSE file
 
 ---
 
-**Ready to build?** Start with `/sr` in Claude Desktop and let the AI guide you! 🚀
+**Note**: This is the public version of our Python boilerplate. Some advanced features and internal optimizations have been removed for security.

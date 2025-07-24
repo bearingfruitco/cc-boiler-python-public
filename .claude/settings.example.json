@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      "List of pre-tool hooks"
+    ],
+    "PostToolUse": [
+      "List of post-tool hooks"
+    ],
+    "Notification": [
+      "List of notification hooks"
+    ],
+    "Stop": [
+      "List of stop hooks"
+    ]
+  },
+  "api_keys": {
+    "openai": "YOUR_OPENAI_API_KEY",
+    "anthropic": "YOUR_ANTHROPIC_API_KEY"
+  }
+}

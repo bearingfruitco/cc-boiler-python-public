@@ -2,7 +2,7 @@
 
 This file lists all currently active hooks in your Claude Code configuration.
 
-## PreToolUse (22 hooks) 
+## PreToolUse (24 hooks) 
 
 ### Core Safety & Validation
 
@@ -28,6 +28,9 @@ This file lists all currently active hooks in your Claude Code configuration.
 - `19-test-generation-enforcer.py`
 - `20-feature-state-guardian.py` **(NEW)** - Prevents recreation of completed features
 - `21-branch-controller.py` **(NEW)** - Enforces branch management rules
+- `22-thinking-level-integration.py` - Manages thinking depth for complex problems
+- `23-existing-project-analyzer.py` - Analyzes existing projects for integration
+- `24-worktree-integration.py` **(NEW)** - Git worktree context awareness
 
 ## PostToolUse (19 hooks)
 

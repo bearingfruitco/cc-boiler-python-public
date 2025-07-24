@@ -1,89 +1,54 @@
-# Environment and secrets
+# Environment
 .env
 .env.*
-*.env
-.env.local
-.env.production
-secrets/
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
+!.env.example
 
-# MCP configuration
+# MCP
 .mcp.json
-mcp.json
-.mcp/
+*.mcp
 
-# API keys and credentials
-**/api_keys/
-**/credentials/
-*_key.json
-*_key.txt
-service-account-*.json
-
-# Private configuration
-settings-private.json
-private-*.json
-config.private.json
-
-# Generated files
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+*.py[cod]
+*$py.class
 *.so
-.venv/
+.Python
 venv/
-ENV/
+.venv/
 env/
+ENV/
+
+# Logs and State
+*.log
+.claude/logs/
+.claude/context/
+.claude/captures/
+.claude/screenshots/
+.claude/transcripts/
+.claude/checkpoints/
+.claude/team/logs/
+*state*.json
+*checkpoint*
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-
-# OS
 .DS_Store
-Thumbs.db
-
-# Node modules (if any)
-node_modules/
-
-# Build artifacts
-build/
-dist/
-*.egg-info/
-.eggs/
 
 # Testing
-.pytest_cache/
 .coverage
+.pytest_cache/
 htmlcov/
-.tox/
 
-# Logs
-*.log
-logs/
+# Build
+dist/
+build/
+*.egg-info/
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Cache
-.cache/
-*.cache
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-
-# Personal data
-personal/
-private/
+# Personal/Sensitive
+secrets/
+credentials/
+*.pem
+*.key

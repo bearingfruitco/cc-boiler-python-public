@@ -62,8 +62,16 @@ Multi-agent parallel execution:
 /sr                    # Resume context
 /py-prd feature-name   # Create PRD
 /gt feature-name      # Generate tasks
+
+# Option 1: Traditional orchestration (shared filesystem)
 /orch feature-name    # Orchestrate agents
 /orch status         # Monitor progress
+
+# Option 2: Worktree orchestration (isolated filesystem) - RECOMMENDED
+/wt feature1 feature2 feature3  # Create isolated worktrees
+/wt-status --monitor           # Monitor all worktrees
+/chain mpr                     # Multi-perspective review
+/wt-merge feature1            # Merge completed features
 ```
 
 ### Score 8-10: PRP Workflow 🔬
@@ -89,13 +97,14 @@ For fixing issues:
 
 ## 3. Workflow Features Comparison
 
-| Feature | Micro | Standard | Orchestration | PRP |
-|---------|-------|----------|---------------|-----|
-| Speed | ⚡ Fastest | 🏃 Fast | 🚶 Medium | 🐢 Thorough |
-| Documentation | ❌ Minimal | ✅ PRD | ✅ PRD | ✅✅ Enhanced PRD |
-| Multi-agent | ❌ No | ❌ No | ✅ Yes | ✅ Optional |
-| Automation | ❌ No | ❌ No | ✅ Partial | ✅✅ Full |
-| Best For | Quick fixes | Features | Complex features | Research-heavy |
+| Feature | Micro | Standard | Orchestration | Worktree | PRP |
+|---------|-------|----------|---------------|----------|-----|
+| Speed | ⚡ Fastest | 🏃 Fast | 🚶 Medium | 🏃 Fast | 🐢 Thorough |
+| Documentation | ❌ Minimal | ✅ PRD | ✅ PRD | ✅ PRD | ✅✅ Enhanced PRD |
+| Multi-agent | ❌ No | ❌ No | ✅ Yes | ✅ Isolated | ✅ Optional |
+| File Conflicts | N/A | N/A | ⚠️ Possible | ✅ None | ✅ None |
+| Automation | ❌ No | ❌ No | ✅ Partial | ✅ Partial | ✅✅ Full |
+| Best For | Quick fixes | Features | Complex features | Parallel features | Research-heavy |
 
 ## 4. Context Preservation
 
@@ -121,6 +130,25 @@ Ready to start? Here's your first command:
 ```bash
 /sr  # Always start by resuming context
 ```
+
+### 🆕 Worktree Workflow (Recommended for Parallel Development)
+When you need to develop multiple features simultaneously without conflicts:
+```bash
+/sr                          # Resume context
+/py-prd "multi-feature"      # Create PRD
+/gt multi-feature           # Generate tasks
+/wt feat1 feat2 feat3       # Create isolated worktrees
+/wt-status --monitor        # Monitor progress
+/chain mpr                  # Multi-perspective review
+/wt-merge feat1            # Merge completed features
+```
+
+**Benefits of Worktrees:**
+- ✅ No file conflicts between parallel work
+- ✅ Each feature on its own branch
+- ✅ Can run tests simultaneously
+- ✅ Easy rollback (just remove worktree)
+- ✅ All hooks and validation work per worktree
 
 ## Pro Tips
 

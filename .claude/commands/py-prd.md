@@ -49,6 +49,47 @@ Tag each phase with responsible domains:
 - Phase 3: Interface [cli, frontend]
 - Phase 4: Quality [testing, security]
 
+### 6. Sub-Specifications (For Complex Features)
+If complexity score > 15, generate focused sub-specs:
+
+#### API Specification
+```yaml
+# .claude/specs/$ARGUMENTS/api-spec.md
+endpoints:
+  - path: /api/v1/$FEATURE
+    methods: [GET, POST]
+    auth: required
+    rate_limit: 100/hour
+    request_schema: Pydantic model
+    response_schema: Pydantic model
+    error_codes: [400, 401, 403, 404, 500]
+```
+
+#### Database Specification  
+```yaml
+# .claude/specs/$ARGUMENTS/db-spec.md
+migrations:
+  - create_table: feature_name
+    columns:
+      - id: UUID primary key
+      - created_at: timestamp
+    indexes: [created_at]
+    constraints: []
+```
+
+#### Test Specification
+```yaml
+# .claude/specs/$ARGUMENTS/test-spec.md
+test_scenarios:
+  unit_tests:
+    - happy_path: Expected behavior
+    - edge_cases: Boundary conditions
+    - error_cases: Exception handling
+  integration_tests:
+    - api_flow: End-to-end API test
+    - data_flow: Pipeline test
+```
+
 Save as: docs/project/features/$ARGUMENTS-PRD.md
 
 ## Enhanced PRP Mode
@@ -64,12 +105,14 @@ This will:
 3. Include gotchas and anti-patterns
 4. Add 4-level validation
 5. Enable automation via prp_runner.py
+6. **NEW**: Generate all sub-specs automatically
 
 ### PRP Benefits
 - **One-pass success**: 78% success rate
 - **Time savings**: 55% faster implementation
 - **Automation ready**: Execute with prp_runner.py
 - **Validation gates**: 4-level quality checks
+- **Sub-specs**: Detailed technical specifications
 
 ### When to Use PRP Mode
 - Complex features with multiple components
@@ -77,3 +120,11 @@ This will:
 - When you want automated execution
 - For repeatable patterns
 - CI/CD pipeline integration
+
+## Integration with Task Generation
+
+After PRD creation:
+1. Sub-specs are used by `/generate-tasks` for detailed task creation
+2. Each sub-spec generates specific implementation tasks
+3. Tasks are linked back to both PRD and sub-specs
+4. Validation checks against specifications

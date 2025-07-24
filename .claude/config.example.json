@@ -1,0 +1,11 @@
+{
+  "version": "2.4.2",
+  "user": "YOUR_USERNAME",
+  "team": {
+    "members": [
+      "user1",
+      "user2"
+    ],
+    "github_token": "YOUR_GITHUB_TOKEN"
+  }
+}

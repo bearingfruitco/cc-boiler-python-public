@@ -88,7 +88,7 @@
       "successfully implemented",
       "done implementing",
       "finished implementing",
-      "✅ completed",
+      "\u2705 completed",
       "task completed",
       "feature complete",
       "implementation is complete",
@@ -106,8 +106,20 @@
     "enabled": true,
     "after_tests_pass": true,
     "after_file_edits": true,
-    "exclude_patterns": [".env", ".env.*", "secrets/", "*.pem", "*.key"],
-    "include_patterns": ["src/**", "tests/**", "*.py", "*.ts", "*.tsx"]
+    "exclude_patterns": [
+      ".env",
+      ".env.*",
+      "secrets/",
+      "*.pem",
+      "*.key"
+    ],
+    "include_patterns": [
+      "src/**",
+      "tests/**",
+      "*.py",
+      "*.ts",
+      "*.tsx"
+    ]
   },
   "permission_profiles": {
     "enabled": true,

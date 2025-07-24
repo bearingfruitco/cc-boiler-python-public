@@ -1,265 +1,513 @@
-# Daily Workflow Guide - Python Boilerplate v2.4.1
+# Daily Workflow Guide - Python Boilerplate v2.4.2
 
-This guide shows you exactly which commands to use and when, ensuring you never lose context and make the most of the system.
+This guide shows real daily workflows for maximum productivity with the AI development system.
 
-## 🌅 Starting Your Day
+## 🌅 Morning Routine (5 minutes)
+
+### Start Your Day Right
 
 ```bash
-# ALWAYS start with:
-/sr                    # Smart Resume - restores EVERYTHING from last session
+# 1. Load context and see where you are
+/sr
 
-# Check what's pending:
-/tl                    # Task Ledger - shows ALL tasks across features (NEW!)
-/ws                    # Work status - includes task summary
-/bt list --open        # Bug track - any open bugs
+# 2. Check task progress
+/tl
+
+# 3. Review any overnight changes
+/gs
+
+# 4. Run morning chain (optional)
+/chain morning-setup
 ```
 
-## 🎯 Command Flow by Scenario
+### What You'll See
+```
+📍 You Are Here
+Branch: feature/23-user-auth
+Issue: #23
+Progress: 7/10 tasks (70%)
 
-### 1. Starting a New Feature
+📋 Active Tasks
+- [ ] Add integration tests
+- [ ] Update documentation
+- [ ] Security review
 
-```bash
-# Step 1: Create PRD and plan
-/py-prd "User Authentication"              # Creates PRD with Python specifics
-
-# Step 2: Generate tasks
-/gt user-authentication                    # Breaks PRD into tasks
-
-# Step 3: Create GitHub issue (with auto tests!)
-/cti "User Authentication" --tests         # Creates issue + generates tests
-
-# Step 4: Start development
-/fw start 123                              # Tests auto-generated from issue!
-
-# You're now ready with:
-# ✅ Branch created
-# ✅ Tests written
-# ✅ Issue linked
-# ✅ Context saved
+🎯 Suggested Next Steps
+1. Continue with 3 remaining tasks: /pt user-auth
+2. Fix failing test: pytest tests/test_auth.py::test_refresh -v
 ```
 
-### 2. Working on Existing Issue
+## 💼 Common Daily Workflows
+
+### 1. Continuing Yesterday's Feature
 
 ```bash
-# Start work (tests auto-generate if missing)
-/fw start 123                              
+# Resume exactly where you left off
+/sr
 
-# Check test status
-/fw test-status 123                        # Shows which tests are failing
+# Check task status
+/tl view current-feature
 
-# Process tasks (TDD enforced)
-/pt user-authentication                    # Won't let you code without tests!
+# Continue implementation
+/pt current-feature
 
-# After each implementation:
-# - Tests run automatically
-# - Can't mark complete until tests pass
+# After making changes
+/test --related    # Test only affected code
+/grade            # Check quality
 ```
 
-### 3. Complex Feature with Research
+**Time: 2-4 hours for typical feature completion**
+
+### 2. Starting a New Feature
 
 ```bash
-# Step 1: Create PRP (includes research phase)
-/prp-create payment-integration            
+# Start fresh
+/sr
 
-# Step 2: Execute with validation
-/prp-execute payment-integration           # Runs research + implementation
+# Create feature specification
+/py-prd notification-system
 
-# Step 3: Check progress
-/prp-status payment-integration            # Shows validation gates
+# Generate tasks and issue
+/cti "Email Notification System" --tests
 
-# Step 4: Complete
-/prp-complete payment-integration          # Generates metrics
+# Begin work (tests already exist!)
+/fw start 124
+
+# Start implementing
+/pt notification-system
 ```
 
-### 4. Quick Bug Fix
+**Time: 30 minutes to full setup with tests**
+
+### 3. Quick Bug Fix
 
 ```bash
-# Track the bug
-/bt add "Login fails with special chars"   
+# Load context
+/sr
 
-# Create test that reproduces bug
-/generate-tests login-bug --type=regression
+# Create micro task
+/mt "fix password validation bug"
 
-# Fix and validate
-/test                                      # Run tests
-/bt resolve bug_1234 "Fixed special chars"
+# Make the fix
+vim src/auth/validators.py
+
+# Verify fix
+/test auth/validators
+/sc    # Safe commit
 ```
 
-### 5. Multi-Agent Complex Feature
+**Time: 15-30 minutes including tests**
+
+### 4. Code Review Preparation
 
 ```bash
-# Analyze if orchestration would help
-/gt user-dashboard                         # Generate tasks
-# System analyzes: "15 tasks across backend/frontend/data"
-# Suggests: /orch user-dashboard --agents=4
+# Prepare for PR
+/chain pre-pr
 
-# Start orchestration
-/orch user-dashboard --strategy=feature_development
+# This runs:
+# - Design validation
+# - All tests
+# - Security checks
+# - Performance analysis
 
-# Monitor progress
-/sas                                       # Sub-agent status
+# Fix any issues, then
+/commit-review
 ```
 
-## 📋 Essential Command Chains
+**Time: 10-15 minutes**
+
+### 5. Research & Complex Feature
 
 ```bash
-# Complete feature development (PRD → Tests → Code → Validate)
+# Start research-heavy feature
+/prp-create payment-gateway
+
+# Let system research
+/prp-execute
+
+# Review findings
+/prp-status
+
+# Implement with confidence
+/prp-complete
+```
+
+**Time: 1-2 days for complex integrations**
+
+## 🚀 Productivity Workflows
+
+### Multi-Agent Development (For Complex Features)
+
+```bash
+# When to use: Feature touches 3+ domains
+# Time savings: 50-70%
+
+# 1. Create comprehensive PRD
+/py-prd social-media-integration
+
+# 2. Launch orchestration
+/orch social-media --strategy=feature_development
+
+# 3. Monitor progress
+/sas
+/orchestration-view
+
+# 4. Integrate results
+/orch integrate
+```
+
+### TDD Speed Run
+
+```bash
+# Enforced TDD workflow
 /chain tdd
-# or shortcut:
-/tdd
 
-# Python feature workflow
-/chain pf
-# or shortcut:
-/pf
-
-# Quick quality check
-/chain pq
-# Does: lint → test → circular deps → security
+# Automatically:
+# 1. Creates PRD
+# 2. Generates all tests
+# 3. Shows failing tests
+# 4. Guides implementation
+# 5. Validates coverage
 ```
 
-## 🛡️ Context Preservation Commands
-
-### Save Context Regularly
-```bash
-# After completing major work:
-/checkpoint save "Completed auth module"    
-
-# Before switching tasks:
-/context-profile save "auth-work"          
-/context-profile load "payment-work"       
-
-# End of day:
-/compact-prepare                           # Prepares handoff
-```
-
-### Never Lose Work
-```bash
-# If something goes wrong:
-/er                    # Error recovery
-/sr                    # Smart resume - gets you back to where you were
-
-# Check what changed:
-/git-status            # See all changes
-/pyexists UserModel    # Check if something exists before recreating
-/pydeps check auth     # See what depends on your module
-```
-
-## 🔄 Workflow Patterns
-
-### Morning Routine
-```bash
-/sr                    # Resume context
-/tl                    # View task ledger (NEW!)
-/chain ds              # Daily startup (includes ledger)
-/fw test-status 123    # Check TDD progress on current issue
-```
-
-### Before Writing Code
-```bash
-/pyexists ClassName    # Check if it exists
-/pysimilar ClassName   # Find similar names
-/pydeps check module   # Check dependencies
-# Tests are auto-generated, no manual step needed!
-```
-
-### After Writing Code
-```bash
-# Tests run automatically via hooks
-# But you can manually run:
-/test                  # Run all tests
-/lint                  # Check code quality
-/pydeps circular       # Check for circular imports
-```
-
-### Before Committing
-```bash
-/chain sc              # Safe commit chain
-# or manually:
-/facts all             # Check constraints
-/test                  # Run tests
-/lint                  # Fix formatting
-```
-
-### End of Day
-```bash
-/bt list --open        # Review open bugs
-/tl                    # Task ledger overview (NEW!)
-/checkpoint save "EOD" # Save state
-/compact-prepare       # Prepare handoff
-```
-
-## 🚨 Common Scenarios
-
-### "I lost my context"
-```bash
-/sr                    # Restores everything
-```
-
-### "Did I already create this?"
-```bash
-/pyexists UserService  # Check before creating
-```
-
-### "What depends on this module?"
-```bash
-/pydeps check auth     # Shows all dependents
-```
-
-### "I need to refactor safely"
-```bash
-/chain pr              # Python refactor chain
-# Does: deps check → exists check → backup → import update
-```
-
-### "Are my tests up to date?"
-```bash
-/fw test-status 123    # Check specific feature
-/test                  # Run all tests
-```
-
-## 📊 Progress Tracking
+### Dependency Analysis Before Refactoring
 
 ```bash
-# Task level:
-/tl                    # Task ledger - ALL tasks (NEW!)
-/tl view [feature]     # Specific feature tasks
-/tb                    # Task board (visual)
+# Before changing core components
+/pydeps check UserModel
+/pydeps breaking UserModel
 
-# Feature level:
-/fw test-status 123    # TDD progress
-/prp-status feature    # PRP validation gates
+# See impact analysis
+⚠️ UserModel is used by:
+- api/auth.py (5 references)
+- services/user.py (12 references)
+- tests/test_user.py (8 references)
 
-# Project level:
-/pydeps scan           # Full dependency analysis
-/test --coverage       # Coverage report
+# Safe refactoring approach
+/chain python-refactor
 ```
 
-## 🎯 Key Principles
+## 📋 Task Management Workflows
 
-1. **Always Start with `/sr`** - Never lose context
-2. **Tests Generate Automatically** - Just start working
-3. **Check Before Creating** - Use `/pyexists`
-4. **Save Checkpoints** - After major work
-5. **Use Chains** - They enforce best practices
-
-## 🔧 Configuration Check
+### Daily Task Review
 
 ```bash
-# Verify TDD is enabled:
-cat .claude/settings.json | grep -A10 "tdd"
+# See all tasks across features
+/tl
 
-# Should show:
-"auto_generate_tests": true
-"enforce_tests_first": true
+# Filter views
+/tl view --in-progress     # Active work
+/tl view --blocked         # Needs attention
+/tl view --ready           # Can start
+
+# Update progress
+/tl update feature-name
 ```
 
-## 💡 Pro Tips
+### Sprint Planning
 
-1. **Trust the Automation** - Tests will be there when needed
-2. **Use Aliases** - `/sr` instead of `/smart-resume`
-3. **Chain Commands** - `/tdd` for complete workflows
-4. **Check Status Often** - `/ts`, `/ws`, `/fw test-status`
-5. **Save Context** - Checkpoint after completing modules
+```bash
+# Generate sprint tasks
+/task-board
 
-Remember: The system is designed to preserve context and enforce quality. Let it guide you!
+# Assign work
+/assign-tasks @teammate feature-name
+
+# Track velocity
+/analytics sprint-velocity
+```
+
+### End-of-Day Wrap-up
+
+```bash
+# Save current state
+/checkpoint create end-of-day
+
+# Generate summary
+/work-status
+
+# Prepare handoff
+/chain context-maintenance
+
+# Final commit
+/sc -m "EOD: Updated auth validation"
+```
+
+## 🔄 Context Management Workflows
+
+### Switching Between Features
+
+```bash
+# Save current feature state
+/cp save feature-auth
+
+# Switch branch (auto-stash enabled)
+/bsw feature/124-notifications
+
+# Load new context
+/sr
+
+# When returning
+/bsw feature/123-auth
+/cp load feature-auth
+```
+
+### Managing Large Contexts
+
+```bash
+# Check token usage
+/analytics token-usage
+
+# Compress intelligently
+/compress --focus="current task"
+
+# Archive completed work
+/checkpoint create pre-archive
+/compress --archive-completed
+```
+
+### Team Collaboration
+
+```bash
+# Before pushing
+/chain safe-commit
+
+# Share context
+/cp share feature-auth
+
+# After pulling
+/sr
+/sync-main
+```
+
+## 🛠️ Development Patterns
+
+### API Endpoint Creation
+
+```bash
+# Morning: Design
+/py-prd order-management
+
+# Generate endpoint
+/py-api /orders CRUD --auth --pagination
+
+# Customize
+vim src/api/routers/orders.py
+
+# Test immediately
+/test api/orders
+
+# Add to documentation
+/generate-docs api
+```
+
+### Agent Development Workflow
+
+```bash
+# Create agent spec
+/py-prd customer-support-agent
+
+# Generate agent
+/py-agent SupportBot --tools=zendesk,slack
+
+# Implement conversation logic
+vim src/agents/support_bot.py
+
+# Test conversations
+/test agents/support --fixtures=conversations
+
+# Deploy
+/cloud-deploy agent support-bot
+```
+
+### Pipeline Creation
+
+```bash
+# Design data flow
+/py-prd daily-analytics-pipeline
+
+# Generate pipeline
+/py-pipeline AnalyticsETL --schedule="0 2 * * *"
+
+# Add transformations
+vim src/pipelines/analytics_etl.py
+
+# Test with sample data
+/test pipelines/analytics --sample-data
+
+# Monitor
+/pipeline-monitor analytics-etl
+```
+
+## 🎯 Advanced Daily Workflows
+
+### Deep Problem Solving
+
+```bash
+# Enhance AI reasoning
+/think-level deep
+
+# Analyze complex issue
+/think-through "optimize query performance"
+
+# Get implementation plan
+/cti "Query Optimization" --detailed
+
+# Execute with guidance
+/pt query-optimization
+```
+
+### Performance Optimization
+
+```bash
+# Profile current performance
+/performance-monitor baseline
+
+# Make optimizations
+# ... code changes ...
+
+# Compare results
+/performance-monitor compare
+
+# Generate report
+/analytics performance-report
+```
+
+### Security Audit
+
+```bash
+# Run security check
+/security-check all
+
+# Fix critical issues
+/process-tasks security-critical
+
+# Verify fixes
+/security-check verify
+
+# Document changes
+/log-decision "security-improvements"
+```
+
+## 💡 Daily Productivity Tips
+
+### Time Savers
+
+1. **Use Chains**: `/chain tdd` vs manual commands (save 10-15 min)
+2. **Trust Auto-staging**: Let hooks handle git (save 5 min/hour)
+3. **Batch Similar Tasks**: `/pt --type=tests` (save 20 min)
+4. **Let AI Debug**: `/think-level deep && /debug` (save 30 min)
+
+### Quality Boosters
+
+1. **Check First**: `/pyexists` before creating (prevent rework)
+2. **Test Continuously**: `/test --watch` in another terminal
+3. **Grade Often**: `/grade` after major changes
+4. **Document Decisions**: `/log-decision` for future reference
+
+### Context Optimization
+
+1. **Compress Regularly**: Every 2-3 hours
+2. **Checkpoint Milestones**: Before major changes
+3. **Profile Switching**: For multiple features
+4. **Clean Commits**: `/sc` for automatic formatting
+
+## 📊 Daily Metrics
+
+Track your productivity:
+
+```bash
+# End of day metrics
+/analytics daily-summary
+
+# Shows:
+- Tasks completed: 12
+- Test coverage: 87%
+- Tokens saved: 45%
+- Time saved: 2.5 hours
+- Code quality: A+
+```
+
+## 🌙 End of Day Routine
+
+```bash
+# 1. Checkpoint current state
+/checkpoint create eod-$(date +%Y%m%d)
+
+# 2. Update task ledger
+/tl update all
+
+# 3. Generate summary
+/work-status report
+
+# 4. Prepare for tomorrow
+/todo add "Review PR feedback"
+/todo add "Start notification feature"
+
+# 5. Clean up
+/chain context-maintenance
+```
+
+## 🚨 Common Daily Scenarios
+
+### "I broke something!"
+```bash
+/error-recovery recent
+/checkpoint restore last-working
+/test --failed-only
+```
+
+### "Too many conflicts"
+```bash
+/sync-main --strategy=theirs
+/conflict-check
+/merge-assist
+```
+
+### "Lost track of tasks"
+```bash
+/tl rebuild
+/work-status detailed
+/suggest-next
+```
+
+### "Need to onboard teammate"
+```bash
+/team-setup add @teammate
+/cp share onboarding
+/generate-docs quickstart
+```
+
+## 🎉 Daily Success Checklist
+
+- [ ] Started with `/sr` ✓
+- [ ] Checked task ledger ✓
+- [ ] Used appropriate workflow ✓
+- [ ] Ran tests frequently ✓
+- [ ] Compressed context ✓
+- [ ] Saved checkpoints ✓
+- [ ] Updated documentation ✓
+- [ ] Clean commits ✓
+
+## 📈 Leveling Up Daily
+
+### Week 1: Build Habits
+- Always start with `/sr`
+- Use `/tl` for task tracking
+- Trust the test automation
+
+### Week 2: Increase Speed
+- Master workflow chains
+- Try multi-agent mode
+- Use thinking levels
+
+### Month 1: Peak Performance
+- Create custom workflows
+- Optimize token usage
+- Contribute patterns
+
+Remember: **The system learns from your patterns**. The more consistently you use it, the more it adapts to your style!
+
+---
+
+*Pro tip: Pin your 5 most-used commands to muscle memory. Most developers use `/sr`, `/tl`, `/pt`, `/test`, and `/sc` dozens of times daily.*

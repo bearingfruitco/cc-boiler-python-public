@@ -124,5 +124,17 @@
   "fix-lint": "lint-fix",
   "format-fix": "lint-fix",
   "tl-think": "think-level",
-  "thinking-level": "think-level"
+  "thinking-level": "think-level",
+  "ld": "log-decision",
+  "decision": "log-decision",
+  "arch-decision": "log-decision",
+  "wt": "worktree-parallel",
+  "worktree": "worktree-parallel",
+  "wts": "worktree-status",
+  "wt-status": "worktree-status",
+  "wtl": "worktree-list",
+  "wt-list": "worktree-list",
+  "rp": "review-perspectives",
+  "multi-review": "review-perspectives",
+  "perspectives": "review-perspectives"
 }

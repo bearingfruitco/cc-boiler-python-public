@@ -1,8 +1,24 @@
 # New Chat Context - Python Boilerplate v2.4.2
 
+## 🚀 Quick Start for New Chats
+
+You're working with an **intelligent Python development system** that actively helps you code better and faster. Here's what you need to know:
+
+### First Command Always:
+```bash
+/sr    # Smart Resume - restores everything you need
+```
+
+### What This System Does:
+- **Prevents mistakes** before they happen (40+ safety hooks)
+- **Tracks all work** centrally (Task Ledger system)
+- **Generates tests** automatically (TDD enforced)
+- **Never loses context** between sessions
+- **Orchestrates AI agents** for complex features
+
 ## 🆕 What's New in v2.4.2
 
-### Claude Code Integration Features
+### Enhanced Intelligence Features
 - **Permission Profiles**: Dynamic safety levels (exploration → ci_pipeline)
 - **Screenshot Capture**: Automatic browser screenshots on test failures
 - **Auto-staging**: Git stages files after successful tests/edits
@@ -11,249 +27,284 @@
 
 ### New Commands
 ```bash
-/think-level deep       # Enhanced reasoning for complex problems
-/compress --focus="api design"  # Targeted context compression
+/think-level deep              # Enhanced reasoning for complex problems
+/compress --focus="api design" # Targeted context compression
+/chain drop-in                # Full system setup for existing projects
 ```
 
-## 🆕 What's New in v2.4.1
+## 🎯 Core Concepts
 
-### Automatic Test-Driven Development
-- **Zero-Friction TDD**: Tests generate automatically at key moments
-- **Smart Triggers**: Tests appear when:
-  - Starting work: `/fw start 123` (from issue)
-  - Processing tasks: `/pt feature` (checks/creates)
-  - Creating issues: `/cti --tests` (instant tests)
-- **Enforcement Options**: Block code without tests (configurable)
-- **Visibility**: Test status shown throughout workflow
-- **No Manual Steps**: Just start working, tests appear
-
-## 🆕 What's New in v2.4.0
-
-### Smart Issue Creation & Dependency Tracking
-- **Capture-to-Issue**: Convert AI responses directly to GitHub issues with `/cti`
-- **Python Dependency Management**: Track module dependencies with `/pydeps`
-- **Creation Guard**: Prevent duplicate modules/classes/functions
-- **Response Capture**: Auto-capture valuable AI analyses for later use
-
-### New Python Commands
-```bash
-# Capture AI response to issue
-/cti "User Auth API" --type=api --framework=fastapi
-
-# Check dependencies
-/pydeps check UserModel
-/pydeps breaking auth_module
-/pydeps circular
-
-# Check existence
-/pyexists UserModel class
-/pysimilar AuthService
-```
-
-## 🆕 What's New in v2.3.6
-
-### Async Event-Driven Architecture
-- **Event Queue System**: Fire-and-forget pattern for non-critical operations
-- **No More Blocking**: Analytics and tracking run asynchronously
-- **Parallel Processing**: Automatic detection of operations that can run in parallel
-- **Required Loading States**: Every async operation must show user feedback
-- **Smart Form Events**: Built-in tracking hooks for lead generation
-- **Timeout Protection**: All external calls have automatic timeout handling
-
-### New Commands
-- `/create-event-handler` - Create async event handler with retry logic
-- `/prd-async` - Add async requirements section to any PRD
-- `/validate-async` - Check code for async anti-patterns
-- `/test-async-flow` - Test event chains end-to-end
-
-## 🚀 Quick Start
-
-You're working with a Python AI-assisted development system focused on building AI agents, FastAPI applications, and data pipelines with Prefect.
-
-### First Commands
-```bash
-/sr                    # Smart Resume - restores full context
-/help new              # See latest features
-/cp load [profile]     # Load focused context
-```
-
-## 🌟 Python-Specific Features
-
-### AI Agent Development
-```bash
-/py-agent DataAnalyst --role=data_analyst --tools=pandas,plotly
-/py-api /analyze POST --agent=data_analyst --auth
-/py-pipeline ETL --source=bigquery --agents=data_analyst
-```
-
-### Dependency Tracking (v2.4.0)
-```python
-"""
-User authentication module.
-
-@module: auth
-@imports-from: database, utils.security
-@imported-by: api.endpoints, services.user
-@breaking-changes: 2024-01-15 - Removed legacy_auth
-"""
-```
-
-### Smart Issue Creation (v2.4.0)
-```bash
-# After AI provides implementation plan:
-/cti "Authentication System" --type=api --framework=fastapi --tests
-
-# Automatically:
-# - Extracts Python components (classes, functions, models)
-# - Detects duplicate issues (80% threshold)
-# - Links to PRDs and parent issues
-# - Creates actionable GitHub issue
-```
-
-### Creation Guard (v2.4.0)
-Before creating any Python component, the system checks:
-- Exact name matches across all modules
-- Similar names (80%+ similarity)
-- Where component is already imported
-- Suggests import statements
-
-## 🎯 Core Python Workflow
-
-```
-IDEA → /py-prd → /cti --tests → /fw start → /pt → /grade
-```
-
-1. **Define** Python feature specification
-2. **Capture** to issue (tests auto-generated!)
-3. **Start** work (tests already waiting)
-4. **Process** tasks (TDD enforced)
-5. **Grade** implementation quality
-
-🆕 No more manual test generation - it's automatic!
-
-## 📋 Essential Python Commands
-
-### Development
-```bash
-/py-prd [feature]      # Python-specific PRD
-/py-agent [name]       # Create Pydantic AI agent
-/py-api [endpoint]     # FastAPI endpoint + models
-/py-pipeline [name]    # Prefect data pipeline
-/pyexists [name]       # Check before creating
-```
-
-### Issue & Dependency Management
-```bash
-/cti [title]           # Capture to GitHub issue
-/pydeps check [module] # What imports this?
-/pydeps scan           # Full dependency scan
-/pydeps breaking       # Detect breaking changes
-/pydeps circular       # Find circular imports
-```
-
-### Quality & Testing
-```bash
-/lint                  # Run ruff linter
-/test                  # Run pytest suite
-/type-check            # Run mypy
-/coverage              # Check test coverage
-```
-
-## 🛡️ Automatic Python Protections
-
-The system automatically:
-- **Prevents** duplicate module/class creation
-- **Tracks** all import dependencies
-- **Warns** about breaking changes
-- **Captures** AI implementation plans
-- **Detects** circular imports
-- **Updates** imports after refactoring
-- **Enforces** type safety with mypy
-- **Validates** with ruff linting
-
-## 🏗️ Python Project Structure
-
-```
-src/
-├── agents/        # AI agents with Pydantic models
-├── api/           # FastAPI routers and endpoints
-├── models/        # Pydantic data models
-├── pipelines/     # Prefect flows and tasks
-├── services/      # Business logic
-├── db/            # Database operations
-└── utils/         # Helper functions
-
-tests/
-├── unit/          # Unit tests
-├── integration/   # Integration tests
-└── e2e/           # End-to-end tests
-```
-
-## 🔧 Configuration
-
-### Python Dependencies (config.json)
-```json
-{
-  "dependencies": {
-    "auto_track": true,
-    "scan_on_save": true,
-    "alert_threshold": 3,
-    "frameworks": {
-      "fastapi": ["routers", "dependencies", "models"],
-      "pydantic": ["models", "validators"],
-      "prefect": ["flows", "tasks", "blocks"]
-    }
-  }
-}
-```
-
-### Capture Settings
-```json
-{
-  "capture_to_issue": {
-    "similarity_threshold": 0.8,
-    "include_tests": true,
-    "python_specific": {
-      "extract_imports": true,
-      "extract_type_hints": true,
-      "track_async": true
-    }
-  }
-}
-```
-
-## 📋 Task Ledger (NEW!)
-
-Central task tracking across all features:
-```bash
-/tl                # View all tasks and progress
-/tl view [feature] # See specific feature tasks
-/tl update [feat]  # Update task progress
-/tl link [f] [#]   # Link feature to GitHub issue
-```
-
-The `.task-ledger.md` file tracks:
-- All generated tasks across features
-- Progress on each feature (X/Y tasks)
+### 1. Task Ledger (Your Central Hub)
+The `.task-ledger.md` file tracks EVERYTHING:
+- All features and their tasks
+- Progress on each feature (X/Y complete)
 - Links to GitHub issues
-- Status: Generated, In Progress, Completed, Blocked
+- Who's working on what
+- What's blocked and why
 
-## 🚦 Getting Help
-
+Access with:
 ```bash
-/help              # Context-aware help
-/help python       # Python-specific help
-/help [command]    # Specific command help
+/tl              # View everything
+/tl view auth    # Specific feature
+/tl update       # Update progress
 ```
 
-## 💭 Philosophy
+### 2. Automatic Safety System
+**40+ hooks** run automatically to:
+- Prevent duplicate code creation
+- Block circular imports
+- Protect sensitive data
+- Enforce test coverage
+- Manage git branches
+- Update dependencies
 
-This system combines the power of AI-assisted development with Python's ecosystem:
-- **Pydantic** for structured data and AI agents
-- **FastAPI** for high-performance APIs
-- **Prefect** for orchestrated data pipelines
-- **Type Safety** throughout with mypy
-- **Dependency Tracking** to prevent breaks
-- **Task Ledger** for never losing work
+You don't need to remember these - they just work!
 
-Ready to build? Try `/py-prd` for a new feature or `/sr` to resume!
+### 3. Python-Specific Commands
+```bash
+# Create Components
+/py-agent AIAssistant    # Pydantic AI agent
+/py-api /users CRUD      # FastAPI endpoints  
+/py-pipeline ETLFlow     # Prefect pipeline
+
+# Check Before Creating
+/pyexists UserModel      # Already exists?
+/pydeps check auth       # What depends on this?
+/pysimilar AuthService   # Find similar code
+```
+
+### 4. Workflow Automation (Chains)
+Pre-configured workflows for common tasks:
+```bash
+/chain tdd          # Test-driven development
+/chain pf           # Python feature
+/chain ma           # Multi-agent orchestration
+/chain deps         # Dependency analysis
+```
+
+## 📋 Essential Commands Reference
+
+### Must-Know Commands
+| Command | What It Does | When to Use |
+|---------|--------------|-------------|
+| `/sr` | Restore context | ALWAYS start here |
+| `/tl` | View all tasks | Check progress |
+| `/help` | Get help | When stuck |
+| `/py-prd` | Create feature spec | New features |
+| `/pt` | Process tasks | Implementation |
+
+### Development Flow
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/cti` | Capture AI response to issue | `/cti "auth system" --tests` |
+| `/fw start 123` | Start work on issue #123 | Tests auto-generate |
+| `/test` | Run tests | After changes |
+| `/grade` | Check quality | Before completing |
+
+### Intelligence Features
+| Command | Purpose | Power Feature |
+|---------|---------|---------------|
+| `/orch` | Multi-agent mode | 50-70% faster |
+| `/prp-create` | Research mode | External APIs |
+| `/think-through` | Deep analysis | Complex problems |
+
+## 🛡️ How Safety Works
+
+### Example: Creating a New Model
+```python
+# You type:
+class UserModel(BaseModel):
+    email: str
+    
+# System automatically:
+1. Checks if UserModel exists ✓
+2. Finds similar models ✓
+3. Validates imports ✓
+4. Generates tests ✓
+5. Updates dependencies ✓
+```
+
+### Example: Preventing Breaks
+```bash
+# You want to refactor:
+/pydeps breaking UserModel
+
+# System shows:
+⚠️ Breaking Changes Detected:
+- api/endpoints/auth.py uses UserModel
+- services/user_service.py imports UserModel
+- tests/test_user.py depends on UserModel
+
+Suggested approach:
+1. Create new model alongside old
+2. Migrate usage incrementally
+3. Remove old when safe
+```
+
+## 🚀 Workflow Examples
+
+### Standard Feature Development
+```bash
+# 1. Start fresh
+/sr
+
+# 2. Define feature  
+/py-prd user-authentication
+
+# 3. Capture to issue (tests auto-generate!)
+/cti "User Auth System" --type=api --tests
+
+# 4. Start work (tests already exist!)
+/fw start 123
+
+# 5. Work through tasks
+/pt user-auth
+
+# 6. Verify and complete
+/test && /grade && /fw complete
+```
+
+### Quick Bug Fix
+```bash
+/sr                          # Resume context
+/mt "fix login timeout"      # Micro task
+# Fix the bug
+/test                        # Verify fix
+/sc                          # Safe commit
+```
+
+### Complex Feature with Research
+```bash
+/sr                          # Resume
+/prp-create payment-system   # Research-heavy
+/prp-execute                 # Run research
+/orch payment-system         # Multi-agent build
+/sas                         # Monitor agents
+```
+
+## 🏗️ System Architecture
+
+### Hook System Flow
+```
+Your Input → Pre-Hooks (Safety) → Action → Post-Hooks (Learning) → Response
+             ↓                              ↓
+             Validation                     State Updates
+             Checks                         Pattern Capture
+             Protection                     Task Updates
+```
+
+### File Organization
+```
+.claude/
+├── commands/      # 70+ command definitions
+├── hooks/         # 40+ safety & intelligence hooks
+├── context/       # Persistent state
+├── personas/      # AI agent configurations
+└── research/      # Captured patterns
+
+src/
+├── agents/        # Pydantic AI agents
+├── api/           # FastAPI endpoints
+├── models/        # Data models
+├── pipelines/     # Prefect workflows
+└── services/      # Business logic
+```
+
+## 🔧 Configuration & Settings
+
+### Key Config Files
+1. **`.claude/settings.json`** - Hook configuration
+2. **`.claude/config.json`** - System settings
+3. **`.claude/aliases.json`** - Command shortcuts
+4. **`.claude/chains.json`** - Workflow definitions
+
+### Important Settings
+```json
+{
+  "tdd": {
+    "enforce": true,          // Can't code without tests
+    "auto_generate": true,    // Tests appear automatically
+    "coverage_threshold": 80  // Minimum coverage
+  },
+  "branch_management": {
+    "max_active_branches": 1, // Focus on one feature
+    "strict_mode": true       // Enforce rules
+  }
+}
+```
+
+## 📊 Performance Tips
+
+### Token Optimization
+```bash
+/compress               # Standard compression
+/compress --target=50   # Aggressive (50% reduction)
+/compress --focus="api" # Keep API details, compress rest
+```
+
+### Speed Improvements
+- Use `/orch` for features touching 3+ files
+- Enable auto-staging for faster commits
+- Use chains instead of individual commands
+- Let hooks handle repetitive tasks
+
+## 🐛 Troubleshooting
+
+### Common Issues & Solutions
+
+**"Can't find context"**
+```bash
+/sr              # Rebuilds everything
+/cp load last    # Load last profile
+```
+
+**"Tests failing"**
+```bash
+/test --verbose  # See details
+/think-level deep && /debug  # AI debugging
+```
+
+**"Too many tokens"**
+```bash
+/compress --aggressive  # Reduce context
+/cp save minimal       # Save lightweight profile
+```
+
+## 💡 Pro Tips
+
+1. **Always start with `/sr`** - It's fast and prevents confusion
+2. **Use chains** - `/chain tdd` is faster than manual steps
+3. **Trust the hooks** - They prevent 90% of common mistakes
+4. **Check dependencies** - `/pydeps check` before big changes
+5. **Let AI orchestrate** - `/orch` for complex features
+6. **Review Task Ledger** - `/tl` shows the big picture
+
+## 🎓 Learning Path
+
+### Day 1: Basics
+```bash
+/sr → /help new → /py-prd → /cti → /fw start
+```
+
+### Week 1: Productivity
+```bash
+Learn chains → Use /orch → Master /prp workflows
+```
+
+### Month 1: Mastery
+```bash
+Custom personas → Multi-agent → Advanced patterns
+```
+
+## 🚦 Ready to Start?
+
+1. Run `/sr` to load context
+2. Check `/tl` for active work
+3. Use `/help` if stuck
+4. Trust the system - it's protecting you!
+
+Remember: **This system learns from you**. Every successful pattern is captured and reused. The more you use it, the smarter it gets!
+
+---
+
+*Note: This system uses Python-based hooks that integrate with Claude Code through the settings.json configuration. All hooks are active and working - you don't need to configure anything!*

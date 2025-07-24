@@ -9,7 +9,7 @@ Show context-aware help for all commands and workflows.
 /h [topic]     # short alias
 /? [topic]     # shorter alias
 
-# Topics: all, new, commands, workflows, aliases, prd, testing, security, context
+# Topics: all, new, commands, workflows, aliases, prd, testing, security, context, existing
 ```
 
 ## 🆕 NEW FEATURES (Latest Updates)

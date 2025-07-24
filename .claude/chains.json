@@ -139,12 +139,14 @@
     "python-refactor": {
       "description": "Safe Python refactoring workflow",
       "commands": [
-        "python-dependencies check",
+        "python-dependencies breaking",
+        "log-decision",
         "python-exists-check",
         "checkpoint create pre-refactor",
         "python-import-updater --check"
       ],
-      "stopOnError": true
+      "stopOnError": true,
+      "note": "Decision logging captures architectural changes"
     },
     "python-api": {
       "description": "Create Python API endpoint",
@@ -297,6 +299,94 @@
         "checkpoint create post-compress",
         "analytics token-usage"
       ]
+    },
+    "existing-project-setup": {
+      "description": "Complete integration for existing codebase",
+      "commands": [
+        "analyze-existing",
+        "python-dependencies scan",
+        "test-runner discover",
+        "checkpoint create post-analysis",
+        "smart-resume"
+      ],
+      "note": "Drops full boilerplate into any existing project"
+    },
+    "existing-project-enhance": {
+      "description": "Enhance existing project with AI features",
+      "commands": [
+        "analyze-existing",
+        "py-prd --from-existing",
+        "generate-tests --missing",
+        "python-dependencies check"
+      ],
+      "permissionProfile": "exploration"
+    },
+    "worktree-setup": {
+      "description": "Setup parallel worktrees for multi-feature development",
+      "commands": [
+        "checkpoint create pre-worktree",
+        "git-status",
+        "python-dependencies check",
+        "test-runner --quick"
+      ],
+      "stopOnError": true,
+      "note": "Validates environment before creating worktrees"
+    },
+    "worktree-execute": {
+      "description": "Execute tasks in parallel worktrees",
+      "commands": [
+        "worktree-parallel {features}",
+        "worktree-status --monitor",
+        "test-runner --all-worktrees"
+      ],
+      "parallel": true,
+      "note": "Each worktree runs independently with own Claude instance"
+    },
+    "worktree-merge": {
+      "description": "Review and merge worktree changes",
+      "commands": [
+        "worktree-review {name}",
+        "python-dependencies breaking --worktree {name}",
+        "test-runner --worktree {name}",
+        "validate-design --worktree {name}",
+        "worktree-merge {name}",
+        "worktree-clean {name}"
+      ],
+      "stopOnError": true,
+      "note": "Comprehensive validation before merging"
+    },
+    "worktree-feature": {
+      "description": "Complete worktree-based feature development",
+      "commands": [
+        "worktree-setup",
+        "py-prd {feature}",
+        "generate-tasks",
+        "worktree-parallel --from-tasks",
+        "worktree-status --monitor"
+      ],
+      "note": "Full workflow from PRD to parallel execution"
+    },
+    "multi-perspective-review": {
+      "description": "Kieran-style parallel review from multiple angles",
+      "commands": [
+        "compress-context --focus=code-changes",
+        "orchestrate-agents 'Review code quality and patterns' --agent senior-engineer",
+        "orchestrate-agents 'Review security vulnerabilities' --agent security-expert --think-deep",
+        "orchestrate-agents 'Review performance implications' --agent performance-engineer",
+        "orchestrate-agents 'Review UX and accessibility' --agent ux-reviewer",
+        "orchestrate-agents 'Synthesize all reviews' --agent tech-lead"
+      ],
+      "parallel": true,
+      "note": "Each perspective runs in sub-agent with specialized focus"
+    },
+    "pr-multi-review": {
+      "description": "Multi-perspective PR review",
+      "commands": [
+        "pr-comments",
+        "chain multi-perspective-review",
+        "pr-feedback --comprehensive"
+      ],
+      "note": "Combines PR context with multi-angle analysis"
     }
   },
   "shortcuts": {
@@ -331,6 +421,15 @@
     "dd": "deep-debug",
     "em": "exploration-mode",
     "cd": "ci-deployment",
-    "co": "context-optimize"
+    "co": "context-optimize",
+    "eps": "existing-project-setup",
+    "epe": "existing-project-enhance",
+    "drop-in": "existing-project-setup",
+    "ae": "analyze-existing",
+    "wts": "worktree-setup",
+    "wte": "worktree-execute",
+    "wtm": "worktree-merge",
+    "mpr": "multi-perspective-review",
+    "pmr": "pr-multi-review"
   }
 }

@@ -1,265 +1,398 @@
-# 🚀 Day 1 Quick Start Guide
+# Day 1 Quick Start - Python Boilerplate v2.4.2
 
-Welcome to the Python AI Agent Boilerplate! This guide gets you productive in 30 minutes.
+Welcome! This guide will have you productive in your first 2 hours with the AI development system.
 
-## 📋 Prerequisites Check
+## 🎯 Hour 1: Setup and First Feature
+
+### Minutes 1-10: Initial Setup
 
 ```bash
-# Required:
-python --version       # 3.11+ required
-poetry --version       # For dependency management
-git --version         # For version control
-
-# Optional but recommended:
-gh --version          # GitHub CLI for issue integration
-docker --version      # For containerization
-```
-
-## 🎯 First 15 Minutes: Setup
-
-### 1. Clone and Initialize
-```bash
-# Clone the boilerplate
-git clone https://github.com/bearingfruitco/boilerplate-python.git my-project
-cd my-project
-
-# Make setup executable and run
-chmod +x scripts/setup.sh
+# 1. Clone and setup (3 min)
+git clone [repo-url] my-first-ai-project
+cd my-first-ai-project
 ./scripts/setup.sh
 
-# Install dependencies
-poetry install
+# 2. Configure Claude Desktop (2 min)
+# Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem", "/full/path/to/my-first-ai-project"]
+    }
+  }
+}
 
-# Copy and configure environment
+# 3. Create .env file (2 min)
 cp .env.example .env
-# Edit .env with your API keys
+# Add at minimum:
+# OPENAI_API_KEY=sk-... (or ANTHROPIC_API_KEY)
+# DATABASE_URL=postgresql://localhost/myapp
 
-# Copy MCP configuration
-cp .mcp-example.json .mcp.json
-# Add your API keys (GitHub token, etc.)
+# 4. Open Claude Desktop and verify (3 min)
 ```
 
-### 2. Test the System
+In Claude Desktop, run:
 ```bash
-# Activate poetry shell
-poetry shell
-
-# Test CLI is working
-agent --help
-
-# Test hooks are active
-/help
+/sr              # Should see "Smart Resume Complete"
+/help            # Should list all commands
 ```
 
-### 3. Configure TDD Settings
-```bash
-# Check TDD is enabled (it should be by default)
-cat .claude/settings.json | grep -A10 "tdd"
+### Minutes 10-30: Create Your First API
 
-# Verify you see:
-# "auto_generate_tests": true
-# "enforce_tests_first": true
-```
-
-## 🎯 Next 15 Minutes: First Feature
-
-### Understanding Task Tracking (NEW!)
-The system now includes a central task ledger that tracks all your work:
+Let's build a simple task management API:
 
 ```bash
-# View all tasks across features
-/tl
-
-# After generating tasks
-/gt user-auth
-# Automatically creates entry in .task-ledger.md
-
-# Check progress anytime
-/tl view user-auth
-```
-
-### 1. Start Your First Feature
-```bash
-# Always start with smart resume (even first time)
+# 1. Start with smart resume
 /sr
 
-# Create your first PRD
-/py-prd "User Authentication API"
+# 2. Create a Python PRD
+/py-prd task-management-api
 
-# Generate tasks from PRD
-/gt user-authentication-api
+# 3. Review the generated PRD, then create implementation
+/py-api /tasks GET POST PUT DELETE --auth --pagination
 
-# Create GitHub issue with tests
-/cti "User Authentication API" --tests --type=api --framework=fastapi
-
-# Start development (tests auto-generate!)
-/fw start 1
+# 4. See what was created
+/tl              # View task ledger
 ```
 
-### 2. Your First Implementation
-```bash
-# Process first task (tests already there!)
-/pt user-authentication-api
+The system just:
+- ✅ Created a complete FastAPI router
+- ✅ Generated Pydantic models
+- ✅ Added authentication
+- ✅ Wrote comprehensive tests
+- ✅ Set up pagination
 
-# The system will:
-# 1. Show which test relates to current task
-# 2. Run test (shows red/failing)
-# 3. Guide you on what to implement
-# 4. Auto-run test after implementation
-# 5. Only mark complete when test passes
-```
-
-### 3. Your First Agent
-```bash
-# Check if similar exists
-/pyexists DataAnalyst
-
-# Create an AI agent
-/py-agent DataAnalyst --role=analyst --tools=pandas,matplotlib
-
-# Tests are auto-generated!
-# Implement the agent following TDD
-```
-
-## 📚 Key Commands to Remember
-
-### Daily Essentials
-```bash
-/sr                    # Start EVERY session with this
-/tl                    # View task ledger (NEW!)
-/help                  # Context-aware help
-/ws                    # Work status with task summary
-/test                  # Run tests
-```
-
-### Feature Development
-```bash
-/py-prd [name]         # Create PRD
-/cti [title] --tests   # Create issue + tests
-/fw start [issue]      # Start work (auto-tests!)
-/pt [feature]          # Process tasks
-```
-
-### Code Creation
-```bash
-/pyexists [name]       # Check before creating
-/py-agent [name]       # Create AI agent
-/py-api [endpoint]     # Create API endpoint
-/py-pipeline [name]    # Create data pipeline
-```
-
-### Quality Checks
-```bash
-/test                  # Run tests
-/lint                  # Check code quality
-/pydeps check [module] # Check dependencies
-/chain pq              # Full quality check
-```
-
-## 🏃 Speed Run: 5-Minute Feature
+### Minutes 30-45: Run and Test
 
 ```bash
-# Fastest path to working feature:
-/sr                                      # Resume context
-/py-prd "Email Service"                  # Create PRD
-/cti "Email Service" --tests             # Issue + tests
-/fw start 1                              # Start (tests ready!)
-/py-api /send-email POST                 # Create endpoint
-/test                                    # Verify it works
+# 1. Run the tests (they already exist!)
+/test
+
+# 2. See the generated code
+cat src/api/routers/tasks.py
+cat src/models/task.py
+cat tests/api/test_tasks.py
+
+# 3. Run the API
+uvicorn src.main:app --reload
+
+# 4. Visit http://localhost:8000/docs
 ```
 
-## 🔧 Customization
+### Minutes 45-60: Add Custom Logic
 
-### Adjust TDD Behavior
 ```bash
-# Edit .claude/settings.json
-{
-  "tdd": {
-    "auto_generate_tests": true,        # Auto-gen tests
-    "enforce_tests_first": true,        # Block code without tests
-    "minimum_coverage": 80,             # Required coverage
-    "open_tests_in_editor": true        # Auto-open test files
-  }
-}
+# 1. Let's add task priorities
+/pyexists TaskPriority     # Check if exists first
+
+# 2. Update the model
+vim src/models/task.py
 ```
 
-### Set Your Defaults
+Add to the Task model:
+```python
+from enum import Enum
+
+class TaskPriority(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    URGENT = "urgent"
+
+class Task(BaseModel):
+    # ... existing fields ...
+    priority: TaskPriority = TaskPriority.MEDIUM
+```
+
 ```bash
-# Edit .claude/config.json
-{
-  "defaults": {
-    "framework": "fastapi",
-    "test_framework": "pytest",
-    "async_by_default": true
-  }
-}
+# 3. Run tests to ensure nothing broke
+/test
+
+# 4. Update and commit
+/sc -m "Add task priorities"
 ```
 
-## 📊 Understanding the File Structure
+**🎉 Congratulations!** You've just built a production-ready API with auth, pagination, and tests in under an hour!
 
-```
-my-project/
-├── src/                    # Your Python code
-│   ├── agents/            # AI agents (Pydantic-based)
-│   ├── api/               # FastAPI endpoints
-│   ├── models/            # Data models
-│   └── pipelines/         # Data pipelines
-├── tests/                  # Auto-generated tests!
-│   ├── unit/              # Unit tests
-│   └── integration/       # Integration tests
-├── .claude/               # AI automation config
-│   ├── commands/          # Custom commands
-│   └── hooks/             # Automation hooks
-└── pyproject.toml         # Python dependencies
+## 🚀 Hour 2: Advanced Features
+
+### Minutes 60-75: Create an AI Agent
+
+Let's add an AI assistant that can manage tasks:
+
+```bash
+# 1. Create the agent
+/py-agent TaskAssistant --role=task_manager --tools=crud,summarize
+
+# 2. See generated code
+cat src/agents/task_assistant.py
+
+# 3. Test the agent
+/test agents/
 ```
 
-## 🚨 Common Day 1 Issues
+The agent can now:
+- Create tasks from natural language
+- Summarize task lists
+- Suggest task priorities
+- Handle complex queries
+
+### Minutes 75-90: Add a Data Pipeline
+
+Create an analytics pipeline:
+
+```bash
+# 1. Create pipeline
+/py-pipeline TaskAnalytics --source=database --schedule="0 9 * * *"
+
+# 2. View the pipeline
+cat src/pipelines/task_analytics.py
+
+# 3. Test pipeline
+/test pipelines/
+```
+
+### Minutes 90-105: Multi-Agent Orchestration
+
+Let's see the real power - building a complex feature with multiple AI agents:
+
+```bash
+# 1. Create a complex PRD
+/py-prd task-automation-system
+
+# 2. Launch orchestration
+/orch task-automation --analyze
+
+# See the analysis:
+# Domains: api, agent, pipeline, testing
+# Complexity: 18 (high)
+# Recommended agents: 4
+# Time savings: ~65%
+
+# 3. Execute orchestration
+/orch task-automation --execute
+
+# 4. Monitor progress
+/sas
+```
+
+### Minutes 105-120: Explore the System
+
+```bash
+# 1. See what hooks protected you
+cat .claude/logs/actions-*.jsonl | grep "prevented"
+
+# 2. Check your productivity
+/analytics report
+
+# 3. View the task ledger
+/tl
+
+# 4. Try different commands
+/help python        # Python-specific help
+/help workflow      # Workflow commands
+/help testing       # Testing commands
+```
+
+## 📚 Key Concepts You've Learned
+
+### 1. Smart Resume (`/sr`)
+- Always start here
+- Restores complete context
+- Shows where you left off
+- Suggests next actions
+
+### 2. Task Ledger (`/tl`)
+- Central tracking for all work
+- Automatic updates
+- Progress visualization
+- Team coordination
+
+### 3. Python Commands
+- `/py-prd` - Create specifications
+- `/py-api` - Generate APIs
+- `/py-agent` - Build AI agents
+- `/py-pipeline` - Create data flows
+
+### 4. Safety Hooks
+The system automatically:
+- Prevented duplicate code
+- Validated imports
+- Generated tests
+- Tracked dependencies
+- Saved your state
+
+### 5. Orchestration
+For complex features:
+- Analyzes complexity
+- Distributes work
+- Coordinates agents
+- Saves 50-70% time
+
+## 🎯 Your First Day Checklist
+
+### Morning (First 2 Hours) ✅
+- [x] Set up environment
+- [x] Configure Claude Desktop
+- [x] Create first API
+- [x] Run tests successfully
+- [x] Add custom feature
+- [x] Create AI agent
+- [x] Build data pipeline
+- [x] Try orchestration
+
+### Afternoon Goals
+- [ ] Create a complete feature with `/chain tdd`
+- [ ] Explore dependency tracking with `/pydeps`
+- [ ] Try research mode with `/prp-create`
+- [ ] Customize your workflow with `/workflow-guide`
+
+### By End of Day
+- [ ] Complete 3-5 features
+- [ ] Understand core workflows
+- [ ] Explore 20+ commands
+- [ ] Save custom profile
+
+## 💡 Power User Tips
+
+### Speed Shortcuts
+```bash
+# Use aliases
+/sr     # instead of /smart-resume
+/prd    # instead of /py-prd  
+/gt     # instead of /generate-tasks
+/pt     # instead of /process-tasks
+
+# Use chains
+/chain tdd          # Complete TDD workflow
+/chain pf           # Python feature
+/chain ma           # Multi-agent
+```
+
+### Quality Boosters
+```bash
+# Before creating anything
+/pyexists ClassName
+
+# Before refactoring
+/pydeps check ModuleName
+
+# For complex problems
+/think-level deep
+
+# For research tasks
+/prp-create feature-name
+```
+
+### Context Management
+```bash
+# Save specific states
+/checkpoint create after-auth-complete
+
+# Compress when needed
+/compress --target=50
+
+# Switch between features
+/cp save feature-1
+/cp load feature-2
+```
+
+## 🚨 Common First-Day Issues
 
 ### "Command not found"
 ```bash
-# Make sure you're in poetry shell
-poetry shell
-
-# Or reinstall
-poetry install
+# Ensure MCP is configured correctly
+# Check Claude Desktop logs
+# Verify path is absolute
 ```
 
-### "Tests not generating"
+### "Tests failing"
 ```bash
-# Check TDD is enabled
-cat .claude/settings.json | grep "auto_generate_tests"
+# Run specific test
+/test tests/api/test_tasks.py -v
 
-# Should be true
+# Use AI debugging
+/debug "test_create_task failing"
 ```
 
-### "Import errors"
+### "Too complex"
 ```bash
-# The system tracks these! Check:
-/pydeps check [module]
+# Start simpler
+/mt "small task"      # Micro task
 
-# Auto-fix imports:
-/python-import-updater
+# Get guidance
+/workflow-guide       # Personalized help
 ```
 
-## 🎯 What to Build First
+## 🎓 Learning Resources
 
-1. **Simple API**: `/py-api /health GET` - Good for testing setup
-2. **Data Model**: `/pyexists User` then create User model
-3. **AI Agent**: `/py-agent Assistant` - See AI integration working
-4. **Data Pipeline**: `/py-pipeline daily-etl` - Test Prefect integration
+### Built-in Help
+```bash
+/help               # General help
+/help new           # New features
+/help [command]     # Specific command
+/onboard           # Interactive tutorial
+```
 
-## 📈 Next Steps
+### Example Patterns
+```bash
+# View example implementations
+ls examples/
+cat examples/simple-api/README.md
+```
 
-1. Read the [Daily Workflow Guide](DAILY_WORKFLOW_GUIDE.md)
-2. Explore `/help new` for latest features
-3. Try `/chain tdd` for full TDD workflow
-4. Check out example projects in `examples/`
+### Command Reference
+```bash
+# See all commands
+/help commands
 
-## 💡 Remember
+# See workflow chains  
+/help chains
 
-- **Always start with `/sr`** - Even on Day 1
-- **Tests generate automatically** - Just start working
-- **Check before creating** - Use `/pyexists`
-- **Trust the automation** - Let it guide you
+# See aliases
+cat .claude/aliases.json
+```
 
-Welcome to a new way of building Python applications! 🐍🚀
+## 🚀 Next Steps
+
+### Tomorrow's Goals
+1. Try the PRP workflow for complex features
+2. Create custom chains for your workflow
+3. Explore advanced orchestration
+4. Build a complete microservice
+
+### This Week
+1. Master the top 20 commands
+2. Create 5+ features
+3. Try all workflow patterns
+4. Contribute a pattern
+
+### This Month
+1. Build a production application
+2. Create custom hooks
+3. Optimize for your style
+4. Train your team
+
+## 🎉 Welcome to Intelligent Development!
+
+You've accomplished more in 2 hours than most developers do in a day:
+- ✅ Built a complete API with auth
+- ✅ Created an AI agent
+- ✅ Set up data pipeline
+- ✅ Tried multi-agent orchestration
+- ✅ All with tests and documentation!
+
+The system is now learning from your patterns. Every command you run makes it smarter. Every feature you build makes the next one easier.
+
+**Remember**: 
+- Always start with `/sr`
+- Trust the hooks - they're protecting you
+- Use `/help` whenever stuck
+- The AI wants to help - let it!
+
+Welcome to the future of development! 🚀
+
+---
+
+*Pro tip: Tomorrow, start with `/sr` and then `/tl` - you'll see all today's work perfectly preserved and ready to continue!*
